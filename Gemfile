@@ -59,6 +59,9 @@ gem 'pry-nav'
 gem 'pry-doc'
 gem 'pry-rails'
 
+# Use Capistrano for deployment
+gem 'capistrano', '~> 3.0', require: false, group: :development
+# gem 'capistrano-rvm'
 
 # Gems used only for assets and not required
 # in production environments by default.
@@ -74,6 +77,10 @@ group :development do
   gem 'better_errors'
   gem 'binding_of_caller'
   gem 'meta_request'
+  
+  gem 'capistrano-rails',   '~> 1.1', require: false
+  gem 'capistrano-bundler', '~> 1.1', require: false
+  gem 'capistrano-passenger'
 end
 
 group :test do
