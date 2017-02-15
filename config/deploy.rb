@@ -33,12 +33,14 @@ set :linked_dirs, fetch(:linked_dirs, []).push('bin', 'log', 'tmp/pids', 'tmp/ca
 set :keep_releases, 3
 
 set :branch, "umdeploy"
-set :use_sudo, false
+set :use_sudo, true
 
 set :rails_env, "production"
 
 set :deploy_via, :remote_cache
 set :copy_exclude, [ '.git' ]
+
+set :tmp_dir, "/home/ocilllrc/tmp"
 
 server "ocill.lrc.lsa.umich.edu", user: 'ocilllrc', roles: [:app, :web, :db], :primary => true
 

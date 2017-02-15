@@ -1,5 +1,5 @@
 source 'https://rubygems.org'
-ruby '2.0.0'
+# ruby '2.0.0'
 
 gem 'rails', '3.2.21'
 
@@ -61,7 +61,7 @@ gem 'pry-rails'
 
 # Use Capistrano for deployment
 gem 'capistrano', '~> 3.0', require: false, group: :development
-# gem 'capistrano-rvm'
+gem 'capistrano-rvm'
 
 # Gems used only for assets and not required
 # in production environments by default.
