@@ -79,12 +79,6 @@ Ocill::Application.configure do
   }
   
   ENV['PANDASTREAM_URL'] = "https://8004343febe45d829904:e8ccc0128cec99762880@api.pandastream.com/25ce2dfe445167db12c3aaa1aee6879a"
-  silence_warnings do
-    begin
-      require 'pry'
-      IRB = Pry
-    rescue LoadError
-  end
   
   # required for lms-lti gem https://github.com/instructure/ims-lti
   OAUTH_10_SUPPORT = true
