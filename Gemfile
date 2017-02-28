@@ -59,6 +59,8 @@ gem 'pry-nav'
 gem 'pry-doc'
 gem 'pry-rails'
 
+gem "foreigner"
+
 # Use Capistrano for deployment
 gem 'capistrano', '~> 3.0', require: false, group: :development
 gem 'capistrano-rvm'
