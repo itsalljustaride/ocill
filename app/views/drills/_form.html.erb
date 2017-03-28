@@ -23,8 +23,10 @@
     <%= render nested_folder(@drill) + 'options', :f => f unless @drill.type.nil? || @drill.type.empty? %> 
   </div>
   
-  <%= debug @drill.exercises %>
-  
+  <div style="display:none;">
+    <%= debug @drill.exercises %>
+  </div>
+
   <% if @drill.exercises.empty? %>
     <div class="control-group">
       <%= f.label :type, :class => 'control-label' %>
