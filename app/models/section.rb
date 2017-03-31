@@ -13,7 +13,7 @@ class Section < ActiveRecord::Base
   end
 
   def duplicate_activities_from_parent
-    canvas = Canvas::API.new(:host => "https://utexas.instructure.com", :token => ENV["UT_CANVAS_TOKEN"])
+    canvas = Canvas::API.new(:host => "https://umich.instructure.com", :token => ENV["CANVAS_TOKEN"])
     
     # get all canvas assignments from the new course
     child_assignments = canvas.get("/api/v1/courses/#{canvas_course_id}/assignments", {'per_page' => '1000'})
@@ -29,7 +29,7 @@ class Section < ActiveRecord::Base
     ocill_child_assignments = {}
 
     child_assignments.each do |assignment| 
-      if assignment["submission_types"].include?("external_tool") && (assignment["external_tool_tag_attributes"]["url"] == "https://ocill.herokuapp.com/launch/create") 
+      if assignment["submission_types"].include?("external_tool") && (assignment["external_tool_tag_attributes"]["url"] == "https://ocill.lrc.lsa.umich.edu/launch/create") 
 
         ocill_child_assignments[assignment["name"]] = assignment["external_tool_tag_attributes"]["resource_link_id"]
       end
@@ -49,7 +49,7 @@ class Section < ActiveRecord::Base
     ocill_parent_assignments = {}
 
     parent_assignments.each do |assignment| 
-      if assignment["submission_types"].include?("external_tool") && (assignment["external_tool_tag_attributes"]["url"] == "https://ocill.herokuapp.com/launch/create") 
+      if assignment["submission_types"].include?("external_tool") && (assignment["external_tool_tag_attributes"]["url"] == "https://ocill.lrc.lsa.umich.edu/launch/create") 
 
         ocill_parent_assignments[assignment["name"]] = assignment["external_tool_tag_attributes"]["resource_link_id"]
       end

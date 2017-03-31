@@ -1,4 +1,4 @@
-<p><%= @creator %> requested that an account be created for you at the University of Texas Ocill website<p>
+<p><%= @creator %> requested that an account be created for you at the University of Michigan OCILL website<p>
 
 <p>Your username for the site is your email address: <%= @user.email %></p>
 
@@ -6,10 +6,10 @@
 <ol>
   <li>
     <p>Before you log in for the first time you will need to <%= link_to 'set your password', edit_password_url(@user, :reset_password_token => @user.reset_password_token) %>.</p>
-  	<p>If you wait too long after receiving this email to reset your password, the link above will expire.  If that happens you will need to visit this page to request a password reset email <a href="http://ocill.herokuapp.com/users/password/new">http://ocill.herokuapp.com/users/password/new</a>.</p>
+  	<p>If you wait too long after receiving this email to reset your password, the link above will expire.  If that happens you will need to visit this page to request a password reset email <a href="https://ocill.lrc.lsa.umich.edu/users/password/new">https://ocill.lrc.lsa.umich.edu/users/password/new</a>.</p>
   </li>
   <li>
-    <p>Once you have set your password you will be able to access your course work at the following url: <a href="https://ocill.herokuapp.com/">https://ocill.herokuapp.com/</a></p>
+    <p>Once you have set your password you will be able to access your course work at the following url: <a href="https://ocill.lrc.lsa.umich.edu/">https://ocill.lrc.lsa.umich.edu/</a></p>
   </li>
 </ol>
 

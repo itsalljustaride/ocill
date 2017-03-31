@@ -62,21 +62,23 @@ Ocill::Application.configure do
   # Send deprecation notices to registered listeners
   config.active_support.deprecation = :notify
 
-  config.action_mailer.default_url_options = { :host => "ocill.herokuapp.com" }
+  config.action_mailer.default_url_options = { :host => "ocill.lrc.lsa.umich.edu" }
   # Log the query plan for queries taking more than this (works
   # with SQLite, MySQL, and PostgreSQL)
   # config.active_record.auto_explain_threshold_in_seconds = 0.5
 
 
   config.action_mailer.smtp_settings = {
-    :address   => "smtp.mandrillapp.com",
-    :port      => 587, # ports 587 and 2525 are also supported with STARTTLS
-    :enable_starttls_auto => true, # detects and uses STARTTLS
-    :user_name => "app7521947@heroku.com",
-    :password  => ENV["MANDRILL_KEY"], # SMTP password is any valid API key
-    :authentication => 'login', # Mandrill supports 'plain' or 'login'
-    :domain => 'ocill.herokuapp.com', # your domain to identify your server when connecting
+    :address   => "mail-relay.itd.umich.edu",
+    :port      => 25,
+    :user_name => "ocill-support",
+    :password  => "BghNe*6034",
+    :authentication => 'plain'
   }
+  
+  # ENV["CANVAS_TOKEN"] = ""
+  
+  ENV["SUPPORT_EMAIL"] = "ocill-support@umich.edu"
   
   ENV['PANDASTREAM_URL'] = "https://8004343febe45d829904:e8ccc0128cec99762880@api.pandastream.com/25ce2dfe445167db12c3aaa1aee6879a"
   

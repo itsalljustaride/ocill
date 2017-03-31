@@ -38,14 +38,17 @@ Ocill::Application.configure do
   config.action_mailer.default_url_options = { :host => "localhost:3000" }
   
   config.action_mailer.smtp_settings = {
-    :address   => "smtp.mandrillapp.com",
-    :port      => 587, # ports 587 and 2525 are also supported with STARTTLS
-    :enable_starttls_auto => true, # detects and uses STARTTLS
-    :user_name => "app7521947@heroku.com",
-    :password  => ENV["MANDRILL_KEY"], # SMTP password is any valid API key
-    :authentication => 'login', # Mandrill supports 'plain' or 'login'
-    :domain => 'ocill.herokuapp.com', # your domain to identify your server when connecting
+    :address   => "smtp.mail.umich.edu",
+    :port      => 587,
+    :enable_starttls_auto => true,
+    :user_name => "johnathb",
+    :password  => "sawchyN14",
+    :authentication => 'login'
   }
+  
+  # ENV["CANVAS_TOKEN"] = ""
+  
+  ENV["SUPPORT_EMAIL"] = "ocill-support@umich.edu"
   
   ENV['PANDASTREAM_URL'] = "https://8004343febe45d829904:e8ccc0128cec99762880@api.pandastream.com/25ce2dfe445167db12c3aaa1aee6879a"
   silence_warnings do

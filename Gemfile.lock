@@ -369,6 +369,7 @@ GEM
       ruby-hmac (>= 0.3.2)
     pg (0.19.0)
     polyglot (0.3.5)
+    power_assert (0.2.6)
     pry (0.10.4)
       coderay (~> 1.1.0)
       method_source (~> 0.8.1)
@@ -490,6 +491,8 @@ GEM
     sshkit (1.12.0)
       net-scp (>= 1.1.2)
       net-ssh (>= 2.8.0)
+    test-unit (3.1.5)
+      power_assert
     therubyracer (0.12.3)
       libv8 (~> 3.16.14.15)
       ref
@@ -589,6 +592,7 @@ DEPENDENCIES
   sass (= 3.2.13)
   sass-rails (= 3.2.3)
   sidekiq
+  test-unit (~> 3.0)
   therubyracer
   thin
   tinymce-rails (~> 3.5)

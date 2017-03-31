@@ -83,6 +83,8 @@ group :development do
   gem 'capistrano-rails',   '~> 1.1', require: false
   gem 'capistrano-bundler', '~> 1.1', require: false
   gem 'capistrano-passenger'
+  
+  gem 'test-unit', '~> 3.0'
 end
 
 group :test do
