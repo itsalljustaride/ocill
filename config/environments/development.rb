@@ -41,8 +41,8 @@ Ocill::Application.configure do
     :address   => "smtp.mail.umich.edu",
     :port      => 587,
     :enable_starttls_auto => true,
-    :user_name => "johnathb",
-    :password  => "sawchyN14",
+    :user_name => "ocill-support",
+    :password  => "BghNe*6034",
     :authentication => 'login'
   }
   

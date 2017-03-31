@@ -65,6 +65,8 @@ gem "foreigner"
 gem 'capistrano', '~> 3.0', require: false, group: :development
 gem 'capistrano-rvm'
 
+gem 'test-unit', '~> 3.0'
+
 # Gems used only for assets and not required
 # in production environments by default.
 group :development do
@@ -82,9 +84,7 @@ group :development do
   
   gem 'capistrano-rails',   '~> 1.1', require: false
   gem 'capistrano-bundler', '~> 1.1', require: false
-  gem 'capistrano-passenger'
-  
-  gem 'test-unit', '~> 3.0'
+  gem 'capistrano-passenger'  
 end
 
 group :test do
