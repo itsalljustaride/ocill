@@ -69,11 +69,14 @@ Ocill::Application.configure do
 
 
   config.action_mailer.smtp_settings = {
-    :address   => "mail-relay.itd.umich.edu",
-    :port      => 25,
-    :user_name => "ocill-support",
-    :password  => "BghNe*6034",
-    :authentication => 'plain'
+    # :address   => "mail-relay.itd.umich.edu",
+    # :port      => 25,
+    # :user_name => "ocill-support",
+    # :authentication       => "plain",
+    # :enable_starttls_auto => true,
+    :address => "localhost",
+    :port => 587,
+    :openssl_verify_mode  => 'none'
   }
   
   # ENV["CANVAS_TOKEN"] = ""
