@@ -67,6 +67,11 @@ gem 'capistrano-rvm'
 
 gem 'test-unit', '~> 3.0'
 
+# For Kaltura uploads
+gem 'kaltura-client'
+gem 'rest-client'
+gem 'shoulda'
+
 # Gems used only for assets and not required
 # in production environments by default.
 group :development do
