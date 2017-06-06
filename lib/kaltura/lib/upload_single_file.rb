@@ -14,14 +14,13 @@ class UploadSingleFile
   KALTURA_NAME = "Uploaded from LRC: #{Time.now.to_s}"
   KALTURA_DESC = "Uploaded from LRC: #{Time.now.to_s}"
   KALTURA_TAGS = "lrc"
+  UPLOAD_MODE = "url" # Set this according to upload method 'url' or 'file'
 
-  MODE = "url" # Set this according to upload method 'url' or 'file'
-
-  def initialize(file_path, type, media_url)
-    @logger ||= fetch_or_create_log
+  def initialize(file_path, media_url, type)
+    @logger ||= Logger.fetch_or_create_log
     @logger.info "-------- Starting upload session --------"
 
-    @file_location = MODE == 'url' ? media_url : file_path
+    @file_location = UPLOAD_MODE == 'url' ? media_url : file_path
     @file_type = type
     @client = MediaSession.fetch(@logger)
 
@@ -34,7 +33,7 @@ private
     @logger.info "-------- Processing upload of file at: #{@file_location} --------"
     @logger.info "File metadata: Owner=#{USER_OWNER_ID} Name=#{KALTURA_NAME} Description=#{KALTURA_DESC}"
 
-    media = MODE == 'url' ? upload_media_by_url : upload_media_by_file
+    media = UPLOAD_MODE == 'url' ? upload_media_by_url : upload_media_by_file
 
     unless media.nil?
       media.add_um_required_metadata(@logger)
@@ -75,7 +74,7 @@ private
   def fetch_media_entry
     entry = KalturaMediaEntry.new
     entry.media_type = media_type
-    entry.source_type = MODE == 'url' ? Kaltura::KalturaSourceType::URL : Kaltura::KalturaSourceType::FILE
+    entry.source_type = UPLOAD_MODE == 'url' ? Kaltura::KalturaSourceType::URL : Kaltura::KalturaSourceType::FILE
     entry.name = KALTURA_NAME
     entry.description = KALTURA_DESC
     entry.tags = KALTURA_TAGS
