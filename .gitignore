@@ -28,6 +28,8 @@ Gemfile.lock
 /config/application.yml
 /config/database.yml
 /config/newrelic.yml
+/config/kaltura_account.yml
+/config/kaltura_metadata.yml
 public/uploads/*
 junk/*
 public/assets/*
