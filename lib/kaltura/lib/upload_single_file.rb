@@ -17,7 +17,7 @@ class UploadSingleFile
   UPLOAD_MODE = "url" # Set this according to upload method 'url' or 'file'
 
   def initialize(file_path, media_url, type)
-    @logger ||= Logger.fetch_or_create_log
+    @logger ||= fetch_or_create_log
     @logger.info "-------- Starting upload session --------"
 
     @file_location = UPLOAD_MODE == 'url' ? media_url : file_path
