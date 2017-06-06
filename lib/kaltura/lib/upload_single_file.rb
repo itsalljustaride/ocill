@@ -15,45 +15,42 @@ class UploadSingleFile
   KALTURA_DESC = "Uploaded from LRC: #{Time.now.to_s}"
   KALTURA_TAGS = "lrc"
 
+  MODE = "url" # Set this according to upload method 'url' or 'file'
+
   def initialize(file_path, type, media_url)
     @logger ||= fetch_or_create_log
     @logger.info "-------- Starting upload session --------"
-    @input_file = file_path
-    @media_url = media_url
+
+    @file_location = MODE == 'url' ? media_url : file_path
+    @file_type = type
     @client = MediaSession.fetch(@logger)
 
     setup_media_upload
   end
 
+private
+
   def setup_media_upload
-    @logger.info "-------- Processing upload of file at: #{@input_file} --------"
+    @logger.info "-------- Processing upload of file at: #{@file_location} --------"
     @logger.info "File metadata: Owner=#{USER_OWNER_ID} Name=#{KALTURA_NAME} Description=#{KALTURA_DESC}"
 
-    media = upload_media_by_url(@input_file, KALTURA_NAME, KALTURA_DESC, KALTURA_TAGS)
-    # media = upload_media_by_file(@input_file, KALTURA_NAME, KALTURA_DESC, KALTURA_TAGS)
+    media = MODE == 'url' ? upload_media_by_url : upload_media_by_file
 
     unless media.nil?
       media.add_um_required_metadata(@logger)
+      @logger.info "File uploaded:"
       @logger.info "#{media.id} :: #{media.download_url}"
     else
-      @logger.info "FILE NOT FOUND"
+      @logger.info "FILE NOT FOUND: #{@file_location}"
     end
   end
 
-  def upload_media_by_url(file, name, desc, tags)
-    # media_entry = Kaltura::KalturaMediaEntry.new
-    media_entry = KalturaMediaEntry.new
-    media_entry.media_type = Kaltura::KalturaMediaType::IMAGE
-    media_entry.source_type = Kaltura::KalturaSourceType::URL
-    media_entry.name = name
-    media_entry.description = desc
-    media_entry.tags = tags
-    media_entry.user_id = USER_OWNER_ID
-    media_entry.creator_id = USER_OWNER_ID
+  def upload_media_by_url
+    media_entry = fetch_media_entry
 
-    unless @media_url.nil?
-      @logger.info "Adding media entry..."
-      entry = @client.media_service.add_from_url(media_entry, @media_url)
+    unless @file_location.nil?
+      @logger.info "Uploading file by URL..."
+      entry = @client.media_service.add_from_url(media_entry, @file_location)
       entry
     else
       nil
@@ -61,19 +58,12 @@ class UploadSingleFile
   end
 
   def upload_media_by_file
-    media_entry = KalturaMediaEntry.new
-    media_entry.media_type = Kaltura::KalturaMediaType::IMAGE
-    media_entry.source_type = Kaltura::KalturaSourceType::FILE
-    media_entry.name = name
-    media_entry.description = desc
-    media_entry.tags = tags
-    media_entry.user_id = USER_OWNER_ID
-    media_entry.creator_id = USER_OWNER_ID
+    media_entry = fetch_media_entry
 
-    if File.exists?(file)
-      file_contents = File.open(file)
-      @logger.info "Uploading file... #{file}"
-      upload = @client.media_service.upload(file_contents)
+    if File.exists?(@file_location)
+      file_contents = File.open(@file_contents)
+      @logger.info "Uploading file via local storage... #{file}"
+      upload = @client.media_service.upload(@file_contents)
       @logger.info "Adding media entry for #{file}"
       entry = @client.media_service.add_from_uploaded_file(media_entry, upload)
       entry
@@ -82,7 +72,34 @@ class UploadSingleFile
     end
   end
 
-private
+  def fetch_media_entry
+    entry = KalturaMediaEntry.new
+    entry.media_type = media_type
+    entry.source_type = MODE == 'url' ? Kaltura::KalturaSourceType::URL : Kaltura::KalturaSourceType::FILE
+    entry.name = KALTURA_NAME
+    entry.description = KALTURA_DESC
+    entry.tags = KALTURA_TAGS
+    entry.user_id = USER_OWNER_ID
+    entry.creator_id = USER_OWNER_ID
+    entry
+  end
+
+  def media_type
+    type = ''
+
+    case @file_type
+    when 'image'
+      type = Kaltura::KalturaMediaType::IMAGE
+    when 'audio'
+      type = Kaltura::KalturaMediaType::AUDIO
+    when 'video'
+      type = Kaltura::KalturaMediaType::VIDEO
+    end
+
+    type
+  end
+
+
 
   def fetch_or_create_log
     log_file = "#{Rails.root}/log/kaltura.log"
