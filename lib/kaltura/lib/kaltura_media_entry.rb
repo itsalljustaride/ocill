@@ -10,6 +10,7 @@ class KalturaMediaEntry < KalturaPlayableEntry
 
   def add_um_required_metadata(logger)
     @logger =  logger
+    ENV = 'test'
     @client = MediaSession.fetch(logger)
     config_file = YAML.load_file("#{Rails.root}/config/kaltura_metadata.yml")
 
@@ -18,14 +19,14 @@ class KalturaMediaEntry < KalturaPlayableEntry
     meta_filter_pager = Kaltura::KalturaFilterPager.new
     meta_filter_pager.page_size = 1
 
-    profile_id = config_file["production"]["profile_id"]
-    stewardship = config_file["production"]["stewardship"]
-    rights = config_file["production"]["rights"]
-    credits = config_file["production"]["credits"]
-    creation_date = config_file["production"]["creation_date"]
-    department_id = config_file["production"]["department_id"]
-    shortcode = config_file["production"]["shortcode"]
-    authorized_signer_uniqname = config_file["production"]["authorized_signer_uniqname"]
+    profile_id = config_file[ENV]["profile_id"]
+    stewardship = config_file[ENV]["stewardship"]
+    rights = config_file[ENV]["rights"]
+    credits = config_file[ENV]["credits"]
+    creation_date = config_file[ENV]["creation_date"]
+    department_id = config_file[ENV]["department_id"]
+    shortcode = config_file[ENV]["shortcode"]
+    authorized_signer_uniqname = config_file[ENV]["authorized_signer_uniqname"]
 
     meta = Nokogiri::XML::Builder.new do |xml|
       xml.metadata {
