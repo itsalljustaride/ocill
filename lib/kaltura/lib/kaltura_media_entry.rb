@@ -8,9 +8,10 @@ class KalturaMediaEntry < KalturaPlayableEntry
   #   super
   # end
 
+  ENV = 'test'
+
   def add_um_required_metadata(logger)
     @logger =  logger
-    ENV = 'test'
     @client = MediaSession.fetch(logger)
     config_file = YAML.load_file("#{Rails.root}/config/kaltura_metadata.yml")
 

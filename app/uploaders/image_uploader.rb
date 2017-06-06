@@ -42,7 +42,7 @@ class ImageUploader < CarrierWave::Uploader::Base
   # Create different versions of your uploaded files:
   version :small do
     process :resize_to_limit => [150, 150]
-    after :store, :video_upload
+    after :store, :image_upload
   end
 
   def filename
@@ -65,10 +65,10 @@ class ImageUploader < CarrierWave::Uploader::Base
 
 private
 
-  def video_upload(*args)
-    file_location = "#{Rails.root}/public/#{store_dir}/#{filename}"
-    # UploadSingleFile.new(file_location, 'image')
-    UploadSingleFile.new(file_location, 'image', url)
+  def image_upload(*args)
+    local_file_location = "#{Rails.root}/public/#{store_dir}/#{filename}"
+    media_type = 'image'
+    UploadSingleFile.new(local_file_location, url, media_type)
   end
 
 end
