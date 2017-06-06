@@ -1,7 +1,10 @@
 # encoding: utf-8
 
+require 'media_upload'
+require 'activesupport_encoding_patch'
+
 class ImageUploader < CarrierWave::Uploader::Base
-  
+
   # Include RMagick or MiniMagick support:
   include CarrierWave::RMagick
   # include CarrierWave::MiniMagick
@@ -14,10 +17,11 @@ class ImageUploader < CarrierWave::Uploader::Base
   # Choose what kind of storage to use for this uploader:
   # storage :file
   storage :fog
+  # storage :file
 
   # Override the directory where uploaded files will be stored.
   # This is a sensible `default for uploaders that are meant to be mounted:
-  
+
   def store_dir
     "uploads/#{model.class.to_s.underscore}/#{mounted_as}/#{model.id}#{model.created_at.to_s.parameterize}"
   end
@@ -38,6 +42,7 @@ class ImageUploader < CarrierWave::Uploader::Base
   # Create different versions of your uploaded files:
   version :small do
     process :resize_to_limit => [150, 150]
+    after :store, :video_upload
   end
 
   def filename
@@ -57,5 +62,13 @@ class ImageUploader < CarrierWave::Uploader::Base
   # def filename
   #   "something.jpg" if original_filename
   # end
+
+private
+
+  def video_upload(*args)
+    file_location = "#{Rails.root}/public/#{store_dir}/#{filename}"
+    # UploadSingleFile.new(file_location, 'image')
+    UploadSingleFile.new(file_location, 'image', url)
+  end
 
 end
