@@ -1,18 +1,17 @@
 require 'Kaltura'
+require_relative 'logging'
 
 include Kaltura
 
 class KalturaMediaEntry < KalturaPlayableEntry
-
-  # def initialize
-  #   super
-  # end
+  include Logging
 
   ENV = 'test'
 
-  def add_um_required_metadata(logger)
-    @logger =  logger
-    @client = MediaSession.fetch(logger)
+  def add_um_required_metadata
+    logger.info "Adding file metadata..."
+    @client = MediaSession.fetch
+
     config_file = YAML.load_file("#{Rails.root}/config/kaltura_metadata.yml")
 
     meta_entry_filter = Kaltura::KalturaMetadataBaseFilter.new

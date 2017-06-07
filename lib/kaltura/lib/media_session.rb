@@ -3,12 +3,12 @@ require 'kaltura'
 include Kaltura
 
 module MediaSession
+  include Logging
 
   ENV = 'test'
 
-  def self.fetch(logger)
-    @logger = logger
-    @logger.info("Fetching session...")
+  def self.fetch
+    logger.info("Fetching session ...")
 
     config_file = YAML.load_file("#{Rails.root}/config/kaltura_account.yml")
     partner_id = config_file[ENV]["partner_id"]
