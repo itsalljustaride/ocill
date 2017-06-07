@@ -10,7 +10,7 @@ class KalturaMediaEntry < KalturaPlayableEntry
 
   def add_um_required_metadata
     logger.info "Adding file metadata..."
-    @client = MediaSession.fetch
+    client = MediaSession.fetch
 
     config_file = YAML.load_file("#{Rails.root}/config/kaltura_metadata.yml")
 
@@ -44,13 +44,13 @@ class KalturaMediaEntry < KalturaPlayableEntry
 
     um_required_metadata = meta.doc.root.to_xml
 
-    media_meta = @client.metadata_service.list(meta_entry_filter, meta_filter_pager)
+    media_meta = client.metadata_service.list(meta_entry_filter, meta_filter_pager)
 
     if media_meta.total_count > 0
       media_meta_id = media_meta.objects.first.id
-      @client.metadata_service.update(media_meta_id, um_required_metadata)
+      client.metadata_service.update(media_meta_id, um_required_metadata)
     else
-      @client.metadata_service.add(profile_id, Kaltura::KalturaMetadataObjectType::ENTRY, self.id, um_required_metadata)
+      client.metadata_service.add(profile_id, Kaltura::KalturaMetadataObjectType::ENTRY, self.id, um_required_metadata)
     end
   end
 end
