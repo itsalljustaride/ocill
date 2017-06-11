@@ -1,5 +1,3 @@
-require 'logging'
-
 module Logging
 
   # Option to log to Media specific log or main Rails log
@@ -9,6 +7,8 @@ module Logging
     def logger
       if LOG_MODE == 'main'
         @logger ||= Logger.new(STDOUT)
+        @logger.formatter = Logger::Formatter.new
+        @logger
       else
         log_file = "#{Rails.root}/log/kaltura.log"
 
