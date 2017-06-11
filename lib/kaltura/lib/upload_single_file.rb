@@ -32,19 +32,22 @@ private
     logger.info "-------- Processing upload of file at: #{@file_location} --------"
     logger.info "File metadata: Owner=#{USER_OWNER_ID} Name=#{KALTURA_NAME} Description=#{KALTURA_DESC}"
 
-    media = UPLOAD_MODE == 'url' ? upload_media_by_url : upload_media_by_file
+    media_url = nil
+
+    media_entry = fetch_media_entry
+    media = UPLOAD_MODE == 'url' ? upload_media_by_url(media_entry) : upload_media_by_file(media_entry)
+    media_id = media.id
 
     unless media.nil?
       media.add_um_required_metadata
-      logger.info "File uploaded - ID: #{media.id} :: URL: #{media.download_url}"
+      logger.info "File uploaded - ID: #{media_id} :: URL: #{media.download_url}"
     else
       logger.info "FILE NOT FOUND: #{@file_location}"
     end
+    media_id
   end
 
-  def upload_media_by_url
-    media_entry = fetch_media_entry
-
+  def upload_media_by_url(media_entry)
     unless @file_location.nil?
       logger.info "Uploading file by URL..."
       entry = @client.media_service.add_from_url(media_entry, @file_location)
@@ -54,9 +57,7 @@ private
     end
   end
 
-  def upload_media_by_file
-    media_entry = fetch_media_entry
-
+  def upload_media_by_file(media_entry)
     if File.exists?(@file_location)
       file_contents = File.open(@file_contents)
       logger.info "Uploading file via local storage..."
