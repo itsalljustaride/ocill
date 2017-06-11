@@ -22,8 +22,11 @@ class UploadSingleFile
     @file_location = UPLOAD_MODE == 'url' ? media_url : file_path
     @file_type = type
     @client = MediaSession.fetch
+    @media_id = setup_media_upload
+  end
 
-    setup_media_upload
+  def fetch_media_id
+    @media_id
   end
 
 private
