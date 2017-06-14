@@ -158,6 +158,12 @@ jQuery ->
     event.preventDefault()
 
 jQuery ->
+  $('form').on 'click', '.add-video-field', (event) ->
+    $(this).parent().find('.video-upload-field').click();
+    $(this).parent().find('.video-upload-field').toggleClass('hidden');
+    event.preventDefault()
+
+jQuery ->
   $('.video-player').each (index, element) ->
     source = $(this).text()
     $(this).text('')
