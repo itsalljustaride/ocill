@@ -32,7 +32,7 @@ class UploadSingleFile
 private
 
   def setup_media_upload
-    logger.info "-------- Processing upload of file at: #{@file_location} --------"
+    logger.info "-------- Processing upload of #{@file_type} file at: #{@file_location} --------"
     logger.info "File metadata: Owner=#{USER_OWNER_ID} Name=#{KALTURA_NAME} Description=#{KALTURA_DESC}"
 
     media_url = nil
