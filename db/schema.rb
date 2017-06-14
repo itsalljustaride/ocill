@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20150721165555) do
+ActiveRecord::Schema.define(:version => 20170611195150) do
 
   create_table "activities", :force => true do |t|
     t.string   "lti_resource_link_id"
@@ -93,9 +93,12 @@ ActiveRecord::Schema.define(:version => 20150721165555) do
     t.string   "image"
     t.text     "options"
     t.string   "panda_audio_id"
+    t.string   "media_id"
+    t.string   "media_type"
   end
 
   add_index "exercises", ["drill_id"], :name => "index_exercises_on_drill_id"
+  add_index "exercises", ["media_id"], :name => "index_exercises_on_media_id"
 
   create_table "headers", :force => true do |t|
     t.integer  "drill_id"

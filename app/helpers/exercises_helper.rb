@@ -100,4 +100,37 @@ module ExercisesHelper
     inputs.join('')
   end
 
+  def kaltura_image_display(media_id)
+    partner_id = Exercise::PARTNER_ID
+    image_tag "http://cdnsecakmi.kaltura.com/p/#{partner_id}/sp/103847200/raw/entry_id/#{media_id}/version/100001"
+  end
+
+  def kaltura_audio_player(f)
+    return unless f.object.media_type == Exercise::AUDIO
+    unless f.object.media_id.blank? #|| f.object.audio_url.include?("fallback")
+      partner_id = Exercise::PARTNER_ID
+      player_id = Exercise::AUDIO_PLAYER_ID
+      media_id = f.object.media_id
+      player_width = 400
+      player_height = 50
+      # s = "#{media_id} ----------- <script src='https://www.kaltura.com/p/#{partner_id}/sp/#{partner_id}00/embedIframeJs/uiconf_id/#{player_id}/partner_id/#{partner_id}?autoembed=true&entry_id=#{media_id}&playerId=#{player_id + media_id}&width=#{player_width}&height=#{player_height}'></script>"
+      s = "<script src='https://www.kaltura.com/p/#{partner_id}/sp/#{partner_id}00/embedIframeJs/uiconf_id/#{player_id}/partner_id/#{partner_id}?autoembed=true&entry_id=#{media_id}&playerId=#{player_id + media_id}&width=#{player_width}&height=#{player_height}'></script>"
+      raw(s)
+    end
+  end
+
+  def kaltura_video_player(f)
+    return unless f.object.media_type == Exercise::VIDEO
+    unless f.object.media_id.blank? # || f.object.audio_url.include?("fallback")
+      partner_id = Exercise::PARTNER_ID
+      player_id = Exercise::VIDEO_PLAYER_ID
+      media_id = f.object.media_id
+      player_width = 400
+      player_height = 330
+      # s = "#{media_id} ----------- <script src='https://www.kaltura.com/p/#{partner_id}/sp/#{partner_id}00/embedIframeJs/uiconf_id/#{player_id}/partner_id/#{partner_id}?autoembed=true&entry_id=#{media_id}&playerId=#{player_id + media_id}&width=#{player_width}&height=#{player_height}'></script>"
+      s = "<script src='https://www.kaltura.com/p/#{partner_id}/sp/#{partner_id}00/embedIframeJs/uiconf_id/#{player_id}/partner_id/#{partner_id}?autoembed=true&entry_id=#{media_id}&playerId=#{player_id + media_id}&width=#{player_width}&height=#{player_height}'></script>"
+      raw(s)
+    end
+  end
+
 end

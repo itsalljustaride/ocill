@@ -17,7 +17,6 @@ class ImageUploader < CarrierWave::Uploader::Base
   # Choose what kind of storage to use for this uploader:
   # storage :file
   storage :fog
-  # storage :file
 
   # Override the directory where uploaded files will be stored.
   # This is a sensible `default for uploaders that are meant to be mounted:
@@ -66,9 +65,11 @@ class ImageUploader < CarrierWave::Uploader::Base
 private
 
   def image_upload(*args)
-    local_file_location = "#{Rails.root}/public/#{store_dir}/#{filename}"
     media_type = 'image'
-    UploadSingleFile.new(local_file_location, url, media_type)
+    local_file_location = "#{Rails.root}/public/#{store_dir}/#{filename}"
+    model.media_id = UploadSingleFile.new(local_file_location, url, media_type).fetch_media_id
+    model.media_type = media_type
+    model.save!
   end
 
 end

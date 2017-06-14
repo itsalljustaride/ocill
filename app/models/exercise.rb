@@ -2,10 +2,19 @@ class Exercise < ActiveRecord::Base
   include Comparable
   mount_uploader :audio, AudioUploader
   mount_uploader :image, ImageUploader
+  mount_uploader :video, VideoUploader
   attr_accessible :prompt, :title, :fill_in_the_blank, :position, :drill_id, :weight, :exercise_items_attributes, :audio, :image, :video, :remove_audio, :remove_image, :remove_video, :panda_audio_id, :horizontal
   attr_accessible  :options
 
   serialize :options, Hash
+
+  PARTNER_ID = '1038472'
+  VIDEO_PLAYER_ID = '39631721'
+  AUDIO_PLAYER_ID = '39572251'
+  # Media Types
+  IMAGE = 'image'
+  AUDIO = 'audio'
+  VIDEO = 'video'
 
   belongs_to :drill
   alias :parent :drill
@@ -23,7 +32,7 @@ class Exercise < ActiveRecord::Base
     copy = self.dup
     copy.drill_id = drill.id
     copy.save
-    
+
     self.exercise_items.each do |exercise_item|
       exercise_item.duplicate_for(copy)
     end
