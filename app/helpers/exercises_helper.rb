@@ -112,7 +112,7 @@ module ExercisesHelper
       player_id = Exercise::AUDIO_PLAYER_ID
       media_id = f.object.media_id
       player_width = 400
-      player_height = 50
+      player_height = 100
       # s = "#{media_id} ----------- <script src='https://www.kaltura.com/p/#{partner_id}/sp/#{partner_id}00/embedIframeJs/uiconf_id/#{player_id}/partner_id/#{partner_id}?autoembed=true&entry_id=#{media_id}&playerId=#{player_id + media_id}&width=#{player_width}&height=#{player_height}'></script>"
       s = "<script src='https://www.kaltura.com/p/#{partner_id}/sp/#{partner_id}00/embedIframeJs/uiconf_id/#{player_id}/partner_id/#{partner_id}?autoembed=true&entry_id=#{media_id}&playerId=#{player_id + media_id}&width=#{player_width}&height=#{player_height}'></script>"
       raw(s)
