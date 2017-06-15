@@ -70,10 +70,8 @@ private
 
   def video_upload(*args)
     media_type = 'video'
-    local_file_location = "#{Rails.root}/public/#{store_dir}/#{filename}"
-    model.media_id = UploadSingleFile.new(local_file_location, url, media_type).fetch_media_id
-    model.media_type = media_type
-    model.save!
+    file_location = "#{Rails.root}/public/#{store_dir}/#{filename}"
+    ProcessUpload.new(file_location, url, media_type, model).run
   end
 
 end
