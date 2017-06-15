@@ -14,6 +14,7 @@ class ExercisesController < InheritedResources::Base
 
   def remove_audio
     exercise = process_deletions
+    exercise.remove_audio!
 
     if exercise.save!
       flash[:notice] = "Audio file removed"
@@ -25,6 +26,7 @@ class ExercisesController < InheritedResources::Base
 
   def remove_image
     exercise = process_deletions
+    exercise.remove_image!
 
     if exercise.save!
       flash[:notice] = "Image file removed"
@@ -36,6 +38,7 @@ class ExercisesController < InheritedResources::Base
 
   def remove_video
     exercise = process_deletions
+    exercise.remove_video!
 
     if exercise.save!
       flash[:notice] = "Video file removed"
@@ -54,7 +57,6 @@ class ExercisesController < InheritedResources::Base
     # Clear local DB columns
     exercise['media_id'] = ''
     exercise['media_type'] = ''
-    exercise.remove_audio!
 
     exercise
   end
