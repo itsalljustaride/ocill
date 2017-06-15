@@ -36,17 +36,25 @@ private
     logger.info "File metadata: Owner=#{USER_OWNER_ID} Name=#{KALTURA_NAME} Description=#{KALTURA_DESC}"
 
     media_url = nil
+    media_id = nil
 
-    media_entry = fetch_media_entry
-    media = UPLOAD_MODE == 'url' ? upload_media_by_url(media_entry) : upload_media_by_file(media_entry)
-    media_id = media.id
+    begin
 
-    unless media.nil?
-      media.add_um_required_metadata
-      logger.info "File uploaded - ID: #{media_id} :: URL: #{media.download_url}"
-    else
-      logger.info "FILE NOT FOUND: #{@file_location}"
+      media_entry = fetch_media_entry
+      media = UPLOAD_MODE == 'url' ? upload_media_by_url(media_entry) : upload_media_by_file(media_entry)
+      media_id = media.id
+
+      unless media.nil?
+        media.add_um_required_metadata
+        logger.info "File uploaded - ID: #{media_id} :: URL: #{media.download_url}"
+      else
+        logger.info "FILE NOT FOUND: #{@file_location}"
+      end
+
+    rescue StandardError => e
+      logger.error e.message
     end
+
     media_id
   end
 

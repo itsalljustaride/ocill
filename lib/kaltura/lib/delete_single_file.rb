@@ -11,6 +11,8 @@ class DeleteSingleFile
   def delete
     logger.info "-------- Processing deletion of #{@media_type} file ID: #{@media_id}"
     @client.media_service.delete(@media_id)
+  rescue StandardError => e
+    logger.error e.message
   end
 
 end
