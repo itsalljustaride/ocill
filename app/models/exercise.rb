@@ -8,6 +8,8 @@ class Exercise < ActiveRecord::Base
 
   serialize :options, Hash
 
+  # HOST = 'www.kaltura.com'
+  HOST = 'cdnsecakmi.kaltura.com'
   PARTNER_ID = '1038472'
   VIDEO_PLAYER_ID = '39631721'
   AUDIO_PLAYER_ID = '39572251'

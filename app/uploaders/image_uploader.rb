@@ -1,6 +1,5 @@
 # encoding: utf-8
 
-require 'media_upload'
 require 'activesupport_encoding_patch'
 
 class ImageUploader < CarrierWave::Uploader::Base
