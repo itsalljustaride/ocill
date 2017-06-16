@@ -13,7 +13,7 @@ class UploadSingleFile
   USER_OWNER_ID = "ocill-admin"
   KALTURA_NAME = "Uploaded from LRC: #{Time.now.to_s}"
   KALTURA_DESC = "Uploaded from LRC: #{Time.now.to_s}"
-  KALTURA_TAGS = "lrc.ocill"
+  KALTURA_TAGS = "lrc,ocill"
   UPLOAD_MODE = "url" # Set this according to upload method 'url' or 'file'
 
   def initialize(file_path, media_url, type)
