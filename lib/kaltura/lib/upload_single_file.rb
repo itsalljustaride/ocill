@@ -42,9 +42,9 @@ private
 
       media_entry = fetch_media_entry
       media = UPLOAD_MODE == 'url' ? upload_media_by_url(media_entry) : upload_media_by_file(media_entry)
-      media_id = media.id
 
       unless media.nil?
+        media_id = media.id
         media.add_um_required_metadata
         logger.info "File uploaded - ID: #{media_id} :: URL: #{media.download_url}"
       else
