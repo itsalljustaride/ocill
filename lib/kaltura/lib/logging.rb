@@ -1,7 +1,7 @@
 module Logging
 
   # Option to log to Media specific log or main Rails log
-  LOG_MODE = 'own' # main or own
+  LOG_MODE = 'main' # main or own
 
   class << self
     def logger
