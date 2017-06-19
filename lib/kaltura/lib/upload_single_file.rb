@@ -4,6 +4,7 @@ require 'rest-client'
 require 'shoulda'
 require 'yaml'
 require 'kaltura'
+require 'kaltura_media_entry'
 
 include Kaltura
 
@@ -45,7 +46,7 @@ private
 
       unless media.nil?
         media_id = media.id
-        media.add_um_required_metadata
+        KalturaMediaEntry.add_um_required_metadata(media_id)
         logger.info "File uploaded - ID: #{media_id} :: URL: #{media.download_url}"
       else
         logger.info "FILE NOT FOUND: #{@file_location}"

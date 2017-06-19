@@ -6,16 +6,16 @@ include Kaltura
 class KalturaMediaEntry < KalturaPlayableEntry
   include Logging
 
-  ENV = 'test'
+  ENV = 'production'
 
-  def add_um_required_metadata
+  def self.add_um_required_metadata(media_id)
     logger.info "Adding file metadata..."
     client = MediaSession.fetch
 
     config_file = YAML.load_file("#{Rails.root}/config/kaltura_metadata.yml")
 
     meta_entry_filter = Kaltura::KalturaMetadataBaseFilter.new
-    meta_entry_filter.object_id_equal = self.id
+    meta_entry_filter.object_id_equal = media_id
     meta_filter_pager = Kaltura::KalturaFilterPager.new
     meta_filter_pager.page_size = 1
 
@@ -50,7 +50,7 @@ class KalturaMediaEntry < KalturaPlayableEntry
       media_meta_id = media_meta.objects.first.id
       client.metadata_service.update(media_meta_id, um_required_metadata)
     else
-      client.metadata_service.add(profile_id, Kaltura::KalturaMetadataObjectType::ENTRY, self.id, um_required_metadata)
+      client.metadata_service.add(profile_id, Kaltura::KalturaMetadataObjectType::ENTRY, media_id, um_required_metadata)
     end
   end
 end
