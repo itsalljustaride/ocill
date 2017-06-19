@@ -70,9 +70,9 @@ private
 
   def upload_media_by_file(media_entry)
     if File.exists?(@file_location)
-      file_contents = File.open(@file_contents)
+      file_contents = File.open(@file_location)
       logger.info "Uploading file via local storage..."
-      upload = @client.media_service.upload(@file_contents)
+      upload = @client.media_service.upload(file_contents)
       logger.info "Adding media entry..."
       entry = @client.media_service.add_from_uploaded_file(media_entry, upload)
       entry
