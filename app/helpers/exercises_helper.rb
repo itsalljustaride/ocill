@@ -138,4 +138,8 @@ module ExercisesHelper
     end
   end
 
+  def deletable_object?(model, type)
+    model.id && model['media_type'] == type
+  end
+
 end
