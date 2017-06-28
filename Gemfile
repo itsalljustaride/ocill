@@ -72,6 +72,8 @@ gem 'kaltura-client'
 gem 'rest-client'
 gem 'shoulda'
 
+gem 'haml'
+
 # Gems used only for assets and not required
 # in production environments by default.
 group :development do

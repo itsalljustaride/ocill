@@ -1,0 +1,35 @@
+
+= form_for @drill, :html => { :multipart => true, :class => @drill.type.to_s.underscore.dasherize } do |f|
+  = f.error_messages
+  = f.hidden_field :unit_id, :class => 'hidden'
+
+  .control-group
+    = f.label :title, :class => 'control-label'
+    .controls
+      = f.text_field :title, :class => 'text-field'
+  .control-group
+    = f.label :instructions, :class => 'control-label'
+    .controls
+      = f.text_area :instructions, :rows => "1", :class => 'text_area tinymce'
+  .control-group
+    = f.label :prompt, :class => 'control-label'
+    .controls
+      = f.text_area :prompt, :rows => "3", :class => 'text_area tinymce'
+  .control-group
+    = render nested_folder(@drill) + 'options', :f => f unless @drill.type.nil? || @drill.type.empty?
+
+  - if @drill.exercises.empty?
+    .control-group
+      = f.label :type, :class => 'control-label'
+      .controls
+        = select("drill", "type", ["DragDrill","GridDrill","FillDrill"], {:prompt => 'Select a Drill Type', :selected => @drill.type })
+
+  #exercises.controls
+    = render nested_folder(@drill) + 'fields', :f => f unless @drill.type.nil? || @drill.type.empty?
+
+  .form-actions
+    = f.submit nil, :class => 'submit-drill btn btn-primary'
+    = link_to t('.cancel', :default => t("helpers.links.cancel")), unit_path(@drill.unit_id), :class => 'btn'
+  - content_for :more_javascripts do
+    = tinymce :default
+
