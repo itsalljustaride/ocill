@@ -41,6 +41,10 @@ class User < ActiveRecord::Base
     self.role == "Administrator"
   end
 
+  def is_learner?
+    self.role == "Learner"
+  end
+
   def flush_navigation_cache
     Rails.cache.delete([self, "navigation-layout"])
   end

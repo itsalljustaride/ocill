@@ -51,8 +51,8 @@ class DrillsController < InheritedResources::Base
 
   def update
     @drill = Drill.find(params[:id])
+    add_answers_to_params unless current_user.is_learner?
     if @drill.update_attributes(params[:drill])
-
       flash[:notice] = "Successfully updated the drill."
     end
     respond_with(@drill) do |format|
@@ -153,4 +153,20 @@ class DrillsController < InheritedResources::Base
       end
     end
   end
+
+  def add_answers_to_params
+    exercises_attr = params['drill']['exercises_attributes']
+    exercises_items_attr = exercises_attr['0']['exercise_items_attributes'] if exercises_attr && exercises_attr['0']['exercise_items_attributes']
+    return if exercises_attr.nil? || exercises_items_attr.nil?
+
+    new_items = {}
+    exercises_items_attr.each_with_index do |item, i|
+      text = item[1]['text']
+      new_items[i.to_s] = exercises_items_attr[i.to_s].merge({'acceptable_answers' => [text]})
+    end
+
+    exercises_attr['0']['exercise_items_attributes'] = new_items
+    # exercises_items_attr = new_items
+  end
+
 end

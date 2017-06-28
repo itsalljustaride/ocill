@@ -57,7 +57,7 @@ dragDrillAttemptApp.controller('DragDrillAttemptCtrl', [ "$scope", "$location", 
         exercise.exercise_items.forEach(function(exercise_item, index){
           $scope.attempt.responses[response_count] = {};
           $scope.attempt.responses[response_count]["exercise_item_id"] = exercise_item.id;
-          $scope.attempt.responses[response_count]["value"] = index;
+          $scope.attempt.responses[response_count]["value"] = exercise_item.text;
           response_count++;
       });
     });

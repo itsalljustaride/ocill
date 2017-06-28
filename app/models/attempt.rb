@@ -62,9 +62,27 @@ class Attempt < ActiveRecord::Base
   end
 
   def grade_sheet
-    responses.each_with_index.map do |response, index|
-      answers = response.exercise_item ? response.exercise_item.answers : []
-      [response.value, answers , response.exercise_item_id]
+    type = Drill.find(drill_id).type
+
+    case type
+    when 'DragDrill'
+      acceptable_answers = {}
+
+      # Get arranged answers
+      responses.first.exercise_item.exercise.exercise_items.each_with_index do |ei, i|
+        acceptable_answers[i] = ei.acceptable_answers
+      end
+
+      # Create gradesheet by comparing ordered records
+      responses.each_with_index.map do |response, index|
+        answers = acceptable_answers[index]
+        [response.value, answers , response.exercise_item_id]
+      end
+    when 'FillDrill'
+      responses.each_with_index.map do |response, index|
+        answers = response.exercise_item ? response.exercise_item.answers : []
+        [response.value, answers , response.exercise_item_id]
+      end
     end
   end
 
