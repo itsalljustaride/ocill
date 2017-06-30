@@ -154,6 +154,8 @@ class DrillsController < InheritedResources::Base
     end
   end
 
+private
+
   def add_answers_to_params
     exercises_attr = params['drill']['exercises_attributes']
     exercises_items_attr = exercises_attr['0']['exercise_items_attributes'] if exercises_attr && exercises_attr['0']['exercise_items_attributes']
@@ -161,12 +163,10 @@ class DrillsController < InheritedResources::Base
 
     new_items = {}
     exercises_items_attr.each_with_index do |item, i|
-      text = item[1]['text']
-      new_items[i.to_s] = exercises_items_attr[i.to_s].merge({'acceptable_answers' => [text]})
+      new_items[i.to_s] = exercises_items_attr[i.to_s].merge({'acceptable_answers' => [i]})
     end
 
     exercises_attr['0']['exercise_items_attributes'] = new_items
-    # exercises_items_attr = new_items
   end
 
 end

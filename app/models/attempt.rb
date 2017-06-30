@@ -1,6 +1,8 @@
 class Attempt < ActiveRecord::Base
   attr_accessible :drill_id, :user_id, :lis_outcome_service_url, :lis_result_sourcedid, :response, :responses
 
+  DRAG_DRILL = 'DragDrill'
+
   has_many :exercise_items, :through => :drill
   belongs_to :drill
   belongs_to :user
@@ -62,28 +64,32 @@ class Attempt < ActiveRecord::Base
   end
 
   def grade_sheet
+    data = []
     type = Drill.find(drill_id).type
 
     case type
-    when 'DragDrill'
+    when DRAG_DRILL
       acceptable_answers = {}
 
       # Get arranged answers
-      responses.first.exercise_item.exercise.exercise_items.each_with_index do |ei, i|
-        acceptable_answers[i] = ei.acceptable_answers
+      responses.first.exercise_item.exercise.exercise_items.each do |ei|
+        index = ei.acceptable_answers.first
+        acceptable_answers[index] = ei.id
       end
 
       # Create gradesheet by comparing ordered records
       responses.each_with_index.map do |response, index|
-        answers = acceptable_answers[index]
-        [response.value, answers , response.exercise_item_id]
+        answer = acceptable_answers[index]
+        data << [response.exercise_item_id, answer.to_s, response.value]
       end
-    when 'FillDrill'
+    else
       responses.each_with_index.map do |response, index|
         answers = response.exercise_item ? response.exercise_item.answers : []
-        [response.value, answers , response.exercise_item_id]
+        data << [response.value, answers, response.exercise_item_id]
       end
     end
+
+    data
   end
 
   def correct_ones
