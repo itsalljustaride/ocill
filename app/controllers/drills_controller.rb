@@ -158,15 +158,18 @@ private
 
   def add_answers_to_params
     exercises_attr = params['drill']['exercises_attributes']
-    exercises_items_attr = exercises_attr['0']['exercise_items_attributes'] if exercises_attr && exercises_attr['0']['exercise_items_attributes']
-    return if exercises_attr.nil? || exercises_items_attr.nil?
+    return if exercises_attr.nil?
 
-    new_items = {}
-    exercises_items_attr.each_with_index do |item, i|
-      new_items[i.to_s] = exercises_items_attr[i.to_s].merge({'acceptable_answers' => [i]})
+    exercises_attr.each_with_index do |attrs, index|
+      new_items = {}
+      exercises_items_attr = attrs.last['exercise_items_attributes'] if attrs && attrs.last['exercise_items_attributes']
+
+      exercises_items_attr.each_with_index do |item, i|
+        new_items[i.to_s] = exercises_items_attr[i.to_s].merge({'acceptable_answers' => [i]})
+      end
+
+      attrs.last['exercise_items_attributes'] = new_items
     end
-
-    exercises_attr['0']['exercise_items_attributes'] = new_items
   end
 
 end
