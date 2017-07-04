@@ -1,8 +1,6 @@
 class Attempt < ActiveRecord::Base
   attr_accessible :drill_id, :user_id, :lis_outcome_service_url, :lis_result_sourcedid, :response, :responses
 
-  DRAG_DRILL = 'DragDrill'
-
   has_many :exercise_items, :through => :drill
   belongs_to :drill
   belongs_to :user
@@ -96,6 +94,31 @@ class Attempt < ActiveRecord::Base
     grade_sheet.select do |el|
       el[1].include?(el[0].to_s) if el[1].respond_to?(:include?)
     end
+  end
+
+  def self.grade_dragdrill(responses)
+    results = {}
+    mistakes = []
+    exercises = responses.map{|r| r.exercise_item.exercise }.uniq
+    user_answers = responses.map {|r| [r["exercise_item_id"], r["value"]] }.to_h
+
+    exercises.each do |exercise|
+      correct_answers = exercise.exercise_items.map {|ei| [ei.id.to_s, ei.acceptable_answers] }.to_h
+
+      correct_answers.each do |ans|
+        accepted_answer_arr = ans.last
+        user_answer = user_answers[ans.first].to_i
+
+        unless accepted_answer_arr.include?(user_answer)
+          mistakes << exercise.id
+          break
+        end
+      end
+    end
+
+    results[:total] = exercises.count
+    results[:correct] = exercises.count - mistakes.count
+    results
   end
 
   def correct_ids

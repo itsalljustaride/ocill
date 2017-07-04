@@ -1,6 +1,10 @@
 class Drill < ActiveRecord::Base
   attr_accessible :instructions, :unit_id, :position, :prompt, :title, :exercises_attributes, :type, :headers_attributes, :options
 
+  DRAG_DRILL = 'DragDrill'
+  GRID_DRILL = 'GridDrill'
+  FILL_DRILL = 'FillDrill'
+
   serialize :options, Hash
 
   belongs_to :unit

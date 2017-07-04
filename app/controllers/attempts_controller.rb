@@ -76,6 +76,8 @@ class AttemptsController < InheritedResources::Base
     @exercise_items = @attempt.exercise_items
     @responses = @attempt.responses
     @drill =  @attempt.drill || Drill.find(params[:drill_id])
+    @is_dragdrill = @drill.type == Drill::DRAG_DRILL
+    @dragdrill_results = Attempt.grade_dragdrill(@responses) if @is_dragdrill
   end
 
   def update

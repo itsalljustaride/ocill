@@ -160,10 +160,14 @@ private
     exercises_attr = params['drill']['exercises_attributes']
     return if exercises_attr.nil?
 
+    # Iterate each exercise
     exercises_attr.each_with_index do |attrs, index|
-      new_items = {}
-      exercises_items_attr = attrs.last['exercise_items_attributes'] if attrs && attrs.last['exercise_items_attributes']
+      return unless attrs && attrs.last['exercise_items_attributes']
 
+      new_items = {}
+      exercises_items_attr = attrs.last['exercise_items_attributes']
+
+      # Process exercise items
       exercises_items_attr.each_with_index do |item, i|
         new_items[i.to_s] = exercises_items_attr[i.to_s].merge({'acceptable_answers' => [i]})
       end

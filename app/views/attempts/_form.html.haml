@@ -1,0 +1,97 @@
+
+= form_for [@drill, @attempt], :html => { class: @drill.type.underscore.dasherize } do |f|
+  - drill = @attempt.drill
+  - model_class = Drill
+  .attempt
+    %h5
+      %strong
+        = label_by_model(model_class, :unit)
+        -# = model_class.human_attribute_name(:unit)
+        -# \:
+      = drill.unit.title
+    %h5
+      %strong
+        = label_by_model(model_class, :title)
+        -# = model_class.human_attribute_name(:title)
+        -# \:
+      = drill.title
+    %h5
+      %strong
+        = label_by_model(model_class, :instructions)
+        -# = model_class.human_attribute_name(:instructions)
+        -# \:
+
+    %p= drill.instructions.to_s.html_safe
+    - unless drill.prompt.empty?
+      #scroller-anchor
+      #scroller.drill-prompt
+        %h5
+          %strong
+            = label_by_model(model_class, :prompt)
+            -# = model_class.human_attribute_name(:prompt)
+            -# \:
+        %p= drill.prompt.to_s.html_safe
+
+    - if current_user.is_lti? && session[:tool]
+      = render 'lti', :f => f
+
+    - if ( action_name == "new" ) || @attempt.matches_current_drill_state?
+      %h5
+        %strong
+          = label_by_model(model_class, :exercises)
+          -# = model_class.human_attribute_name(:exercises)
+          -# \:
+      = before_exercise_wrapper(drill).html_safe
+
+      - drill.exercises.each do |exercise|
+        = render :partial => nested_folder(attempt) + action_name + '_attempt_exercises', :locals => { :exercise => exercise, :attempt => @attempt }
+
+      = after_exercise_wrapper(drill).html_safe
+
+    - else
+      %h3 Notice
+      %p The answers given on this drill do not match the current questions in the drill.  However, the score below is accurate for the state of the drill when the answers were given.  Contact an administrator via the support email given above for verification of the answers.
+
+    - if action_name == "show"
+      %h5
+        %strong
+          = label_by_model(model_class, :score)
+          -# = Attempt.human_attribute_name(:score)
+          -# \:
+
+      %p
+        - if @is_dragdrill
+          = process_dragdrill(@dragdrill_results)
+        - else
+          = score_attempt(@attempt)
+
+  %div{:style => "clear:both"}
+
+  .form-actions
+    - unless current_user && current_user.is_lti?
+      = link_to t('.back', :default => t("helpers.links.back")), |
+        drills_path, :class => 'btn'                             |
+
+    - case action_name
+    - when "show"
+      = link_to "Attempt Again", new_drill_attempt_path(:drill_id => drill.id), :id => 'submit-attempt', :class => 'btn btn-primary ' + drill.type.underscore.dasherize
+    - when "new"
+      / You can't submit it if there's nothing to submit
+      - if drill.exercise_items.count > 0
+        = f.submit "Submit Attempt", :id => 'submit-attempt', :class => 'btn btn-primary'
+      - else
+        %span
+          See the instructions section for directions on submitting your work.
+    - when "edit"
+      / You can't submit it if there's nothing to submit
+      - if drill.exercise_items.count > 0
+        = f.submit "Submit Attempt", :id => 'submit-attempt', :class => 'btn btn-primary'
+      - else
+        %span
+          See the instructions section for directions on submitting your work.
+
+:javascript
+  $(function() {
+    moveScroller();
+  });
+
