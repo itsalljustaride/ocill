@@ -56,7 +56,12 @@ private
   def audio_upload(*args)
     media_type = 'audio'
     file_location = "#{Rails.root}/public/#{store_dir}/#{filename}"
-    ProcessUpload.new(file_location, url, media_type, model).run
+    ProcessUpload.new(file_location, url, media_type, current_model).run
+  end
+
+  # GridDrill model is 'exercise_item' and not 'exercise' like others
+  def current_model
+    model.drill.type == Drill::GRID_DRILL ? model.parent : model
   end
 
 end
