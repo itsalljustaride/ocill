@@ -8,7 +8,7 @@
     <%= link_to icon("camera","white").html_safe, "#", :class => "add-image-field" %>
     <%= link_to icon("film","white").html_safe, "#", :class => "add-video-field" %>
 
-    <%= kaltura_video_player(f) %>
+    <%= kaltura_video_player(f.object) %>
     <% if deletable_object?(f.object, 'video') %>
       <%= (link_to icon('times', 'white'),
            exercise_remove_video_path(f.object),
@@ -16,7 +16,7 @@
            :method => :delete  unless f.object.video_url == f.object.video.default_url) %>
     <% end %>
 
-    <%= kaltura_audio_player(f) %>
+    <%= kaltura_audio_player(f.object) %>
     <% if deletable_object?(f.object, 'audio') %>
       <%= (link_to icon('times', 'white'),
           exercise_remove_audio_path(f.object),
@@ -24,7 +24,7 @@
           :method => :delete  unless f.object.audio_url == f.object.audio.default_url) %>
     <% end %>
 
-    <%= kaltura_image_display(f) %>
+    <%= kaltura_image_display(f.object) %>
     <% if deletable_object?(f.object, 'image') %>
       <%= (link_to icon('times', 'white'),
           exercise_remove_image_path(f.object),
