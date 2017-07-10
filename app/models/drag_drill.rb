@@ -32,7 +32,7 @@ class DragDrill < Drill
   end
 
   def response_order current_user
-    current_user.attempts.last.responses.map{|r| r.exercise_item_id.to_i}
+    current_user.attempts.last.responses.map{|r| r.exercise_item_id.to_i} unless current_user.nil?
   end
 
 end
