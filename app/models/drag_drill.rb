@@ -1,19 +1,23 @@
 class DragDrill < Drill
+
   def self.model_name
     Drill.model_name
   end
 
   def as_json(options={})
-      if options[:type] == :shuffle || options[:type] == :simple
-      {
+    data = {}
+    options[:order] = response_order(options[:current_user])
+
+    if options[:type] == :shuffle || options[:type] == :simple
+      data = {
         id: self.id,
         unit_id: self.unit_id ,
         exercises: self.exercises.as_json(options),
         options:  self.options,
         title: self.title
       }
-      else
-      {
+    else
+      data = {
         id: self.id ,
         instructions: self.instructions ,
         prompt: self.prompt ,
@@ -22,7 +26,13 @@ class DragDrill < Drill
         title: self.title ,
         unit_id: self.unit_id ,
         exercises: self.exercises.as_json(options)
-       }
+      }
     end
+    data
   end
+
+  def response_order current_user
+    current_user.attempts.last.responses.map{|r| r.exercise_item_id.to_i}
+  end
+
 end

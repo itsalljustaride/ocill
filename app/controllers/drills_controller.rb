@@ -8,10 +8,16 @@ class DrillsController < InheritedResources::Base
 
   def read
     @drill = Drill.includes( exercises: :exercise_items ).find(params[:drill_id])
+    options = {}
+    options[:type] = params[:type].to_sym
+    options[:current_user] = current_user
+    # needs to shuffle first time round
+    options[:first_attempt] = request.referrer.split('/').include?('new') unless request.referrer.blank?
+
     respond_to do |format|
       format.html
       if params[:type]
-        format.json { render json: @drill.as_json({ type: params[:type].to_sym }) }
+        format.json { render json: @drill.as_json(options) }
       else
         format.json { render json: @drill.as_json }
       end

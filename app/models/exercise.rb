@@ -162,7 +162,7 @@ class Exercise < ActiveRecord::Base
         drill_id: self.drill_id ,
         weight: self.weight,
         horizontal: self.horizontal,
-        exercise_items: self.exercise_items.shuffle.as_json(options)
+        exercise_items: order_by_answers(options)
       }
     elsif options[:type] == :simple
       {
@@ -192,6 +192,14 @@ class Exercise < ActiveRecord::Base
         created_at: self.created_at ,
         exercise_items: self.exercise_items.as_json(options)
       }
+    end
+  end
+
+  def order_by_answers(options)
+    if options[:order].blank? || options[:first_attempt] || options[:first_attempt].nil?
+      self.exercise_items.shuffle.as_json(options)
+    else
+      self.exercise_items.index_by(&:id).values_at(*options[:order]).compact.as_json(options)
     end
   end
 end

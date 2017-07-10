@@ -97,7 +97,7 @@ class Drill < ActiveRecord::Base
     self.exercises.size
   end
 
-  def as_json(options={})
+  def as_json(options={}, current_user="")
     {
       created_at: self.created_at ,
       header_row: self.header_row ,
