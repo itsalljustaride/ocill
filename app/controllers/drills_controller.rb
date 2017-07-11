@@ -57,10 +57,11 @@ class DrillsController < InheritedResources::Base
 
   def update
     @drill = Drill.find(params[:id])
+    has_exercises = @drill.exercises.count > 0 ? true : false
     add_answers_to_params unless current_user.is_learner?
-    update_drag_exercise_positions
 
     if @drill.update_attributes(params[:drill])
+      update_drag_exercise_positions(has_exercises)
       flash[:notice] = "Successfully updated the drill."
     end
     respond_with(@drill) do |format|
@@ -184,15 +185,20 @@ private
     end
   end
 
-  def update_drag_exercise_positions
+  def update_drag_exercise_positions(has_exercises)
     return unless @drill.type == Drill::DRAG_DRILL
     return if params['drill']['exercises_attributes'].nil?
 
     current_positions = @drill.exercises.map{|e| [e.id.to_s, e.position.to_s]}.to_h
-    incoming_positions = params['drill']['exercises_attributes'].map{|ea| [ea[1]['id'], ea[0] ] }.to_h
+    if has_exercises
+      incoming_positions = params['drill']['exercises_attributes'].map{|ea| [ea[1]['id'], ea[0] ] }.to_h
+    else
+      incoming_positions = current_positions.each_with_index.map{|k, i| [k.first, i] }.to_h
+    end
 
-    # Compare incoming and current positions to avoid unnecessary updates
-    Exercise.update(incoming_positions.map{|k,v| k }, incoming_positions.map{|k,v| {position: v } }) unless current_positions == incoming_positions
+    ids_to_update = incoming_positions.map{|k,v| k }
+    values_to_update = incoming_positions.map{|k,v| { position: v }}
+    Exercise.update(ids_to_update, values_to_update) unless current_positions == incoming_positions
   end
 
 end
