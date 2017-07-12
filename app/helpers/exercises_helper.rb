@@ -91,51 +91,60 @@ module ExercisesHelper
         response = Response.new({"exercise_item_id" => ei.id})
         input += create_response_input(ei.id, 80085, "hidden", "audio-played", "0" )
       end
-        input += audio_tag(ei.audio_urls) unless ei.audio_url.blank? || ei.audio_url.include?("fallback")
-        input += image_tag(exercise.image_url(:small)) unless exercise.image.blank? || exercise.image_url.include?("fallback")
-        text = ei.text unless exercise.drill.hide_text?
-        input += content_tag(:p, text )
-        input += "</td>"
+
+      input += kaltura_audio_player(ei) if ei.parent.media_type == Exercise::AUDIO
+      input += kaltura_image_display(ei) if ei.parent.media_type == Exercise::IMAGE
+      input += kaltura_video_player(ei) if ei.parent.media_type == Exercise::VIDEO
+
+      text = ei.text unless exercise.drill.hide_text?
+      input += content_tag(:p, text )
+      input += "</td>"
     end
     inputs.join('')
   end
 
   def kaltura_image_display(model)
-    return unless model.media_type == Exercise::IMAGE
-    unless model.media_id.blank? || model.image_url.include?("fallback")
-      host = Exercise::HOST
-      partner_id = Exercise::PARTNER_ID
-      media_id = model.media_id
-      image_tag "http://#{host}/p/#{partner_id}/sp/#{partner_id}00/raw/entry_id/#{media_id}/version/100001"
-    end
+    media = model.class == ExerciseItem ? model.parent : model
+
+    return unless media.media_type == Exercise::IMAGE
+    return if media.media_id.blank? || model.image_url.include?("fallback")
+
+    host = Exercise::HOST
+    partner_id = Exercise::PARTNER_ID
+    media_id = model.media_id
+    image_tag "http://#{host}/p/#{partner_id}/sp/#{partner_id}00/raw/entry_id/#{media_id}/version/100001"
   end
 
   def kaltura_audio_player(model)
-    return unless model.media_type == Exercise::AUDIO
-    unless model.media_id.blank? || model.audio_url.include?("fallback")
-      host = Exercise::HOST
-      partner_id = Exercise::PARTNER_ID
-      player_id = Exercise::AUDIO_PLAYER_ID
-      media_id = model.media_id
-      player_width = 400
-      player_height = 100
-      s = "<script src='https://#{host}/p/#{partner_id}/sp/#{partner_id}00/embedIframeJs/uiconf_id/#{player_id}/partner_id/#{partner_id}?autoembed=true&entry_id=#{media_id}&playerId=#{player_id + media_id}&width=#{player_width}&height=#{player_height}'></script>"
-      raw(s)
-    end
+    media = model.class == ExerciseItem ? model.parent : model
+
+    return unless media.media_type == Exercise::AUDIO
+    return if media.media_id.blank? || model.audio_url.include?("fallback")
+
+    host = Exercise::HOST
+    partner_id = Exercise::PARTNER_ID
+    player_id = Exercise::AUDIO_PLAYER_ID
+    media_id = media.media_id
+    player_width = 400
+    player_height = 100
+    s = "<script src='https://#{host}/p/#{partner_id}/sp/#{partner_id}00/embedIframeJs/uiconf_id/#{player_id}/partner_id/#{partner_id}?autoembed=true&entry_id=#{media_id}&playerId=#{player_id + media_id}&width=#{player_width}&height=#{player_height}'></script>"
+    raw(s)
   end
 
   def kaltura_video_player(model)
-    return unless model.media_type == Exercise::VIDEO
-    unless model.media_id.blank? || model.video_url.include?("fallback")
-      host = Exercise::HOST
-      partner_id = Exercise::PARTNER_ID
-      player_id = Exercise::VIDEO_PLAYER_ID
-      media_id = model.media_id
-      player_width = 400
-      player_height = 330
-      s = "<script src='https://#{host}/p/#{partner_id}/sp/#{partner_id}00/embedIframeJs/uiconf_id/#{player_id}/partner_id/#{partner_id}?autoembed=true&entry_id=#{media_id}&playerId=#{player_id + media_id}&width=#{player_width}&height=#{player_height}'></script>"
-      raw(s)
-    end
+    media = model.class == ExerciseItem ? model.parent : model
+
+    return unless media.media_type == Exercise::VIDEO
+    return if media.media_id.blank? || model.video_url.include?("fallback")
+
+    host = Exercise::HOST
+    partner_id = Exercise::PARTNER_ID
+    player_id = Exercise::VIDEO_PLAYER_ID
+    media_id = model.media_id
+    player_width = 400
+    player_height = 330
+    s = "<script src='https://#{host}/p/#{partner_id}/sp/#{partner_id}00/embedIframeJs/uiconf_id/#{player_id}/partner_id/#{partner_id}?autoembed=true&entry_id=#{media_id}&playerId=#{player_id + media_id}&width=#{player_width}&height=#{player_height}'></script>"
+    raw(s)
   end
 
   def deletable_object?(model, type)
