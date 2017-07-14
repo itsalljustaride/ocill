@@ -92,9 +92,9 @@ module ExercisesHelper
         input += create_response_input(ei.id, 80085, "hidden", "audio-played", "0" )
       end
 
-      input += kaltura_audio_player(ei) if ei.parent.media_type == Exercise::AUDIO
-      input += kaltura_image_display(ei) if ei.parent.media_type == Exercise::IMAGE
-      input += kaltura_video_player(ei) if ei.parent.media_type == Exercise::VIDEO
+      input += kaltura_audio_player(ei) if ei.media_type == Exercise::AUDIO
+      input += kaltura_image_display(ei) if ei.media_type == Exercise::IMAGE
+      input += kaltura_video_player(ei) if ei.media_type == Exercise::VIDEO
 
       text = ei.text unless exercise.drill.hide_text?
       input += content_tag(:p, text )
@@ -104,10 +104,8 @@ module ExercisesHelper
   end
 
   def kaltura_image_display(model)
-    media = model.class == ExerciseItem ? model.parent : model
-
-    return unless media.media_type == Exercise::IMAGE
-    return if media.media_id.blank? || model.image_url.include?("fallback")
+    return unless model.media_type == Exercise::IMAGE
+    return if model.media_id.blank?
 
     host = Exercise::HOST
     partner_id = Exercise::PARTNER_ID
@@ -116,15 +114,13 @@ module ExercisesHelper
   end
 
   def kaltura_audio_player(model)
-    media = model.class == ExerciseItem ? model.parent : model
-
-    return unless media.media_type == Exercise::AUDIO
-    return if media.media_id.blank? || model.audio_url.include?("fallback")
+    return unless model.media_type == Exercise::AUDIO
+    return if model.media_id.blank?
 
     host = Exercise::HOST
     partner_id = Exercise::PARTNER_ID
     player_id = Exercise::AUDIO_PLAYER_ID
-    media_id = media.media_id
+    media_id = model.media_id
     player_width = 400
     player_height = 100
     s = "<script src='https://#{host}/p/#{partner_id}/sp/#{partner_id}00/embedIframeJs/uiconf_id/#{player_id}/partner_id/#{partner_id}?autoembed=true&entry_id=#{media_id}&playerId=#{player_id + media_id}&width=#{player_width}&height=#{player_height}'></script>"
@@ -132,10 +128,8 @@ module ExercisesHelper
   end
 
   def kaltura_video_player(model)
-    media = model.class == ExerciseItem ? model.parent : model
-
-    return unless media.media_type == Exercise::VIDEO
-    return if media.media_id.blank? || model.video_url.include?("fallback")
+    return unless model.media_type == Exercise::VIDEO
+    return if model.media_id.blank?
 
     host = Exercise::HOST
     partner_id = Exercise::PARTNER_ID
