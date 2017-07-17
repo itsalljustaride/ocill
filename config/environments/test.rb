@@ -11,9 +11,6 @@ Ocill::Application.configure do
   config.serve_static_assets = true
   config.static_cache_control = "public, max-age=3600"
 
-  # Log error messages when you accidentally call methods on nil
-  config.whiny_nils = true
-
   # Show full error reports and disable caching
   config.consider_all_requests_local       = true
   config.action_controller.perform_caching = false
@@ -34,6 +31,8 @@ Ocill::Application.configure do
 
   # Print deprecation notices to the stderr
   config.active_support.deprecation = :stderr
+  
+  config.eager_load = false
 
   ENV['PANDASTREAM_URL'] = "https://8004343febe45d829904:e8ccc0128cec99762880@api.pandastream.com/25ce2dfe445167db12c3aaa1aee6879a"
 
