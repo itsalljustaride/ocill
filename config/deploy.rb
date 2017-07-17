@@ -1,6 +1,8 @@
 # config valid only for current version of Capistrano
 lock "3.7.2"
 
+set :rvm_ruby_version, '2.3.1'
+
 set :application, "ocill"
 set :repo_url, 'git@bitbucket.org:johnathb/ocill.git'
 
@@ -21,7 +23,7 @@ set :deploy_to, '/home/ocilllrc/ocill'
 set :pty, true
 
 # Default value for :linked_files is []
-set :linked_files, fetch(:linked_files, []).push('config/database.yml', 'config/secrets.yml', 'config/application.yml', 'public/.htaccess')
+set :linked_files, fetch(:linked_files, []).push('config/database.yml', 'config/secrets.yml', 'config/application.yml', 'public/.htaccess', 'config/kaltura_account.yml', 'config/kaltura_metadata.yml')
 
 # Default value for linked_dirs is []
 set :linked_dirs, fetch(:linked_dirs, []).push('bin', 'log', 'tmp/pids', 'tmp/cache', 'tmp/sockets', 'public/uploads')
