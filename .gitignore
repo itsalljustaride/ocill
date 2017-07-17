@@ -33,3 +33,5 @@ junk/*
 public/assets/*
 node_modules/*
 Steps for Copying a Course with Ocill Assignements
+/config/kaltura_account.yml
+/config/kaltura_metadata.yml
