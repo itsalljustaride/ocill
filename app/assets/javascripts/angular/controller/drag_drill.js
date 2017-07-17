@@ -73,7 +73,7 @@ dragDrillApp.controller('DragDrillCtrl', [ "$scope", "$location", "$http", funct
 
   $scope.delete = function(index, parent_index){
     if (parent_index != -1) {
-      $scope.drill.drill.exercises[parent_index].exercise_items[index]._destroy=true;
+      $scope.drill.drill.exercises[index].exercise_items[index]._destroy=true;
     } else {
       $scope.drill.drill.exercises[index]._destroy=true;
     }

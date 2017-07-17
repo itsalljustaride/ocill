@@ -30,7 +30,7 @@ class AttemptsController < InheritedResources::Base
       @attempt = current_user.attempts.new(:drill_id => params[:drill_id])
         if params[:attempt] && params[:attempt][:responses]
           params[:attempt][:responses].each do |id, response|
-            @attempt.responses+= [ Response.new(response) ]
+            @attempt.responses += [ Response.new(response) ]
           end
         else 
           flash[:alert] =  'This drill does not report a grade Please notify OCILL support of the problem at <a href="mailto:' + ENV["SUPPORT_EMAIL"] + '">' + ENV["SUPPORT_EMAIL"] + '</a>. (type 1)'
@@ -76,6 +76,8 @@ class AttemptsController < InheritedResources::Base
     @exercise_items = @attempt.exercise_items
     @responses = @attempt.responses
     @drill =  @attempt.drill || Drill.find(params[:drill_id])
+    @is_dragdrill = @drill.type == Drill::DRAG_DRILL
+    @dragdrill_results = Attempt.grade_dragdrill(@responses) if @is_dragdrill
   end
 
   def update

@@ -62,16 +62,63 @@ class Attempt < ActiveRecord::Base
   end
 
   def grade_sheet
-    responses.each_with_index.map do |response, index|
-      answers = response.exercise_item ? response.exercise_item.answers : []
-      [response.value, answers , response.exercise_item_id]
+    data = []
+    type = Drill.find(drill_id).type
+
+    case type
+    when DRAG_DRILL
+      acceptable_answers = {}
+
+      # Get arranged answers
+      responses.first.exercise_item.exercise.exercise_items.each do |ei|
+        index = ei.acceptable_answers.first
+        acceptable_answers[index] = ei.id
+      end
+
+      # Create gradesheet by comparing ordered records
+      responses.each_with_index.map do |response, index|
+        answer = acceptable_answers[index]
+        data << [response.exercise_item_id, answer.to_s, response.value]
+      end
+    else
+      responses.each_with_index.map do |response, index|
+        answers = response.exercise_item ? response.exercise_item.answers : []
+        data << [response.value, answers, response.exercise_item_id]
+      end
     end
+
+    data
   end
 
   def correct_ones
     grade_sheet.select do |el|
       el[1].include?(el[0].to_s) if el[1].respond_to?(:include?)
     end
+  end
+
+  def self.grade_dragdrill(responses)
+    results = {}
+    mistakes = []
+    exercises = responses.map{|r| r.exercise_item.exercise }.uniq
+    user_answers = responses.map {|r| [r["exercise_item_id"], r["value"]] }.to_h
+
+    exercises.each do |exercise|
+      correct_answers = exercise.exercise_items.map {|ei| [ei.id.to_s, ei.acceptable_answers] }.to_h
+
+      correct_answers.each do |ans|
+        accepted_answer_arr = ans.last
+        user_answer = user_answers[ans.first].to_i
+
+        unless accepted_answer_arr.include?(user_answer)
+          mistakes << exercise.id
+          break
+        end
+      end
+    end
+
+    results[:total] = exercises.count
+    results[:correct] = exercises.count - mistakes.count
+    results
   end
 
   def correct_ids

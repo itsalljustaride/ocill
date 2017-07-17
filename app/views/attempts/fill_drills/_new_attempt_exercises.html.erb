@@ -1,5 +1,8 @@
 <li class="fill-drill-exercise">
-  <%= audio_tag(exercise.audio_urls) unless exercise.audio_url.blank? || exercise.audio_url.include?("fallback")%>
-  <%= image_tag(exercise.image_url(:small)) unless exercise.image_url.include?("fallback") %>
+
+  <%= kaltura_audio_player(exercise) %>
+  <%= kaltura_image_display(exercise) %>
+  <%= kaltura_video_player(exercise) %>
+
   <%= attempt_fill_drill_exercise(exercise, @attempt.responses, @attempt.id).html_safe %>
 </li>

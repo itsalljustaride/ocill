@@ -1,6 +1,10 @@
 class Drill < ActiveRecord::Base
   attr_accessible :instructions, :unit_id, :position, :prompt, :title, :exercises_attributes, :type, :headers_attributes, :options
 
+  DRAG_DRILL = 'DragDrill'
+  GRID_DRILL = 'GridDrill'
+  FILL_DRILL = 'FillDrill'
+
   serialize :options, Hash
 
   belongs_to :unit
@@ -93,7 +97,7 @@ class Drill < ActiveRecord::Base
     self.exercises.size
   end
 
-  def as_json(options={})
+  def as_json(options={}, current_user="")
     {
       created_at: self.created_at ,
       header_row: self.header_row ,

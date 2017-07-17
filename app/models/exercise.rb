@@ -2,10 +2,21 @@ class Exercise < ActiveRecord::Base
   include Comparable
   mount_uploader :audio, AudioUploader
   mount_uploader :image, ImageUploader
+  mount_uploader :video, VideoUploader
   attr_accessible :prompt, :title, :fill_in_the_blank, :position, :drill_id, :weight, :exercise_items_attributes, :audio, :image, :video, :remove_audio, :remove_image, :remove_video, :panda_audio_id, :horizontal
   attr_accessible  :options
 
   serialize :options, Hash
+
+  # HOST = 'www.kaltura.com'
+  HOST = 'cdnsecakmi.kaltura.com'
+  PARTNER_ID = '1038472'
+  VIDEO_PLAYER_ID = '39631721'
+  AUDIO_PLAYER_ID = '39572251'
+  # Media Types
+  IMAGE = 'image'
+  AUDIO = 'audio'
+  VIDEO = 'video'
 
   belongs_to :drill
   alias :parent :drill
@@ -23,7 +34,7 @@ class Exercise < ActiveRecord::Base
     copy = self.dup
     copy.drill_id = drill.id
     copy.save
-    
+
     self.exercise_items.each do |exercise_item|
       exercise_item.duplicate_for(copy)
     end
@@ -151,7 +162,7 @@ class Exercise < ActiveRecord::Base
         drill_id: self.drill_id ,
         weight: self.weight,
         horizontal: self.horizontal,
-        exercise_items: self.exercise_items.shuffle.as_json(options)
+        exercise_items: order_by_answers(options)
       }
     elsif options[:type] == :simple
       {
@@ -181,6 +192,14 @@ class Exercise < ActiveRecord::Base
         created_at: self.created_at ,
         exercise_items: self.exercise_items.as_json(options)
       }
+    end
+  end
+
+  def order_by_answers(options)
+    if options[:order].blank? || options[:first_attempt] || options[:first_attempt].nil?
+      self.exercise_items.shuffle.as_json(options)
+    else
+      self.exercise_items.index_by(&:id).values_at(*options[:order]).compact.as_json(options)
     end
   end
 end

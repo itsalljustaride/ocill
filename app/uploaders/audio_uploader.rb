@@ -1,7 +1,8 @@
 # encoding: utf-8
 
 class AudioUploader < CarrierWave::Uploader::Base
-  after :store, :panda_encode
+  after :store, :audio_upload
+
   # Include RMagick or MiniMagick support:
   # include CarrierWave::RMagick
   # include CarrierWave::MiniMagick
@@ -28,7 +29,6 @@ class AudioUploader < CarrierWave::Uploader::Base
     asset_path("/fallback/" + [version_name, "default.m4a"].compact.join('_'))
   end
 
-
   # Process files as they are uploaded:
   # process :scale => [200, 300]
   #
@@ -52,13 +52,11 @@ class AudioUploader < CarrierWave::Uploader::Base
   end
 
 private
-  def panda_encode(*args)
-    audio=Panda::Video.create!(:source_url => url, :path_format => "#{store_dir}/#{remove_audio_ext(filename)}", :profiles => "mp3,ogg")
-    model.panda_audio_id = audio.id
-    model.save!
+
+  def audio_upload(*args)
+    media_type = 'audio'
+    file_location = "#{Rails.root}/public/#{store_dir}/#{filename}"
+    ProcessUpload.new(file_location, url, media_type, model).run
   end
 
-  def remove_audio_ext(path_and_file)
-    path_and_file.sub(/\.ogg$|\.oga$|\.mp3$|\.wav$|\.m4a$/i, '')
-  end  
 end

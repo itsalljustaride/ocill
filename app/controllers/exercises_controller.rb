@@ -13,8 +13,9 @@ class ExercisesController < InheritedResources::Base
   end
 
   def remove_audio
-    exercise = Exercise.find(params[:exercise_id])
+    exercise = process_deletions
     exercise.remove_audio!
+
     if exercise.save!
       flash[:notice] = "Audio file removed"
     else
@@ -24,14 +25,40 @@ class ExercisesController < InheritedResources::Base
   end
 
   def remove_image
-    exercise = Exercise.find(params[:exercise_id])
+    exercise = process_deletions
     exercise.remove_image!
+
     if exercise.save!
       flash[:notice] = "Image file removed"
     else
       flash[:error] = "Image file not removed"
     end
     redirect_to edit_drill_path(exercise.drill)
+  end
+
+  def remove_video
+    exercise = process_deletions
+    exercise.remove_video!
+
+    if exercise.save!
+      flash[:notice] = "Video file removed"
+    else
+      flash[:error] = "Video file not removed"
+    end
+    redirect_to edit_drill_path(exercise.drill)
+  end
+
+  private
+
+  def process_deletions
+    exercise = Exercise.find(params[:exercise_id])
+    # Remove from Kaltura
+    DeleteSingleFile.new(exercise.media_id, exercise.media_type).delete
+    # Clear local DB columns
+    exercise['media_id'] = ''
+    exercise['media_type'] = ''
+
+    exercise
   end
 
 end

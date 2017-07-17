@@ -8,10 +8,16 @@ class DrillsController < InheritedResources::Base
 
   def read
     @drill = Drill.includes( exercises: :exercise_items ).find(params[:drill_id])
+    options = {}
+    options[:type] = params[:type].to_sym
+    options[:current_user] = current_user
+    # needs to shuffle first time round
+    options[:first_attempt] = request.referrer.split('/').include?('new') unless request.referrer.blank?
+
     respond_to do |format|
       format.html
       if params[:type]
-        format.json { render json: @drill.as_json({ type: params[:type].to_sym }) }
+        format.json { render json: @drill.as_json(options) }
       else
         format.json { render json: @drill.as_json }
       end
@@ -51,8 +57,11 @@ class DrillsController < InheritedResources::Base
 
   def update
     @drill = Drill.find(params[:id])
-    if @drill.update_attributes(params[:drill])
+    has_exercises = @drill.exercises.count > 0 ? true : false
+    add_answers_to_params unless current_user.is_learner?
 
+    if @drill.update_attributes(params[:drill])
+      update_drag_exercise_positions(has_exercises)
       flash[:notice] = "Successfully updated the drill."
     end
     respond_with(@drill) do |format|
@@ -153,4 +162,43 @@ class DrillsController < InheritedResources::Base
       end
     end
   end
+
+private
+
+  def add_answers_to_params
+    exercises_attr = params['drill']['exercises_attributes']
+    return if exercises_attr.nil?
+
+    # Iterate each exercise
+    exercises_attr.each_with_index do |attrs, index|
+      return unless attrs && attrs.last['exercise_items_attributes']
+
+      new_items = {}
+      exercises_items_attr = attrs.last['exercise_items_attributes']
+
+      # Process exercise items
+      exercises_items_attr.each_with_index do |item, i|
+        new_items[i.to_s] = exercises_items_attr[i.to_s].merge({'acceptable_answers' => [i]})
+      end
+
+      attrs.last['exercise_items_attributes'] = new_items
+    end
+  end
+
+  def update_drag_exercise_positions(has_exercises)
+    return unless @drill.type == Drill::DRAG_DRILL
+    return if params['drill']['exercises_attributes'].nil?
+
+    current_positions = @drill.exercises.map{|e| [e.id.to_s, e.position.to_s]}.to_h
+    if has_exercises
+      incoming_positions = params['drill']['exercises_attributes'].map{|ea| [ea[1]['id'], ea[0] ] }.to_h
+    else
+      incoming_positions = current_positions.each_with_index.map{|k, i| [k.first, i] }.to_h
+    end
+
+    ids_to_update = incoming_positions.map{|k,v| k }
+    values_to_update = incoming_positions.map{|k,v| { position: v }}
+    Exercise.update(ids_to_update, values_to_update) unless current_positions == incoming_positions
+  end
+
 end
