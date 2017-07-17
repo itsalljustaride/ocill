@@ -13,7 +13,7 @@ gem 'thin'
 
 #authorization/authentication
 gem 'devise'
-gem 'cancan'
+gem 'cancancan', '~> 1.10'
 
 # WYSIWYG provided by tinymce DON'T UPDATE css will be lost.
 gem 'tinymce-rails', '~> 3.5'
