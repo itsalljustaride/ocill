@@ -14,7 +14,7 @@ class Course < ActiveRecord::Base
 
   after_initialize :set_default_position
   after_commit :flush_user_navigation_caches
-  default_scope order('title ASC')
+  default_scope { order('title ASC') }
 
 
   def duplicate

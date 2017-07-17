@@ -10,9 +10,9 @@ class ExerciseItem < ActiveRecord::Base
   serialize :acceptable_answers
   serialize :options, Hash
 
-  # default_scope where("deleted_at IS NULL")
+  # default_scope where("deleted_at IS NULL") <- deprecated in 4.0
 
-  # scope :deleted, -> { unscoped.where("deleted_at IS NOT NULL") }
+  # scope :deleted, -> { unscoped.where("deleted_at IS NOT NULL") } <- deprecated in 4.0
 
   belongs_to :exercise
   belongs_to :header
