@@ -16,8 +16,8 @@ gem 'devise'
 gem 'cancancan', '~> 1.10'
 
 # WYSIWYG provided by tinymce DON'T UPDATE css will be lost.
-gem 'tinymce-rails', '~> 3.5'
-gem 'tinymce-rails-imageupload', '~> 3.5.6.3'
+gem 'tinymce-rails', '~> 4.2'
+# gem 'tinymce-rails-imageupload', '~> 3.5.6.3'
 
 
 # for file upload and storage
