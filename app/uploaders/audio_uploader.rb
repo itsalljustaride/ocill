@@ -8,13 +8,13 @@ class AudioUploader < CarrierWave::Uploader::Base
   # include CarrierWave::MiniMagick
 
   # Include the Sprockets helpers for Rails 3.1+ asset pipeline compatibility:
-  include Sprockets::Helpers::RailsHelper
-  include Sprockets::Helpers::IsolatedHelper
+  # include Sprockets::Helpers::RailsHelper
+  # include Sprockets::Helpers::IsolatedHelper
   #  include CarrierWaveDirect::Uploader
   # Choose what kind of storage to use for this uploader:
 
-  include CarrierWave::MimeTypes
-  process :set_content_type
+  # include CarrierWave::MimeTypes
+  # process :set_content_type
   storage :fog
 
   # Override the directory where uploaded files will be stored.
