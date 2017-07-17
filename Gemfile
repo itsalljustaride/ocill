@@ -7,7 +7,7 @@ gem 'rails', '4.0'
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
 #postgresql
-gem 'pg'
+gem 'pg', '0.20'
 #server
 gem 'thin'
 
