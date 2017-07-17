@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 ruby '2.3.1'
 
-gem 'rails', '3.2.22.5'
+gem 'rails', '4.0'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
@@ -74,6 +74,8 @@ gem 'shoulda'
 
 gem 'haml'
 
+gem 'protected_attributes'
+
 # Gems used only for assets and not required
 # in production environments by default.
 group :development do
@@ -112,16 +114,11 @@ group :development, :test do
   gem 'rb-fsevent', '~> 0.9.1'
 end
 
-group :assets do
-  # until the lastest version of the sass gem gets fixed...
-  gem 'sass', '3.2.13'  
-  # gem 'sass-rails',   '~> 3.2.3'
-  gem 'sass-rails',   '3.2.3'
-  gem 'coffee-rails', '~> 3.2.1'
-  gem 'twitter-bootstrap-rails', '2.2.8'
-  gem 'less-rails'
-  gem 'font-awesome-rails'
-  gem 'therubyracer', :platforms => :ruby
-  gem 'uglifier', '>= 1.0.3'
-  gem 'toastr-rails'
-end
+gem 'sass-rails',   '~> 4.0'
+gem 'coffee-rails', '~> 4.0'
+gem 'twitter-bootstrap-rails', '2.2.8'
+gem 'less-rails'
+gem 'font-awesome-rails'
+gem 'therubyracer', :platforms => :ruby
+gem 'uglifier', '>= 1.0.3'
+gem 'toastr-rails'
