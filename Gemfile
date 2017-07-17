@@ -68,7 +68,7 @@ gem 'capistrano-rvm'
 gem 'test-unit', '~> 3.0'
 
 # For Kaltura uploads
-gem 'kaltura-client', '0.0.1', :path => '/vendor/gems/kaltura'
+gem 'kaltura-client', '1.0', :path => 'vendor/gems/kaltura'
 gem 'rest-client'
 gem 'shoulda'
 

@@ -1,3 +1,9 @@
+PATH
+  remote: vendor/gems/kaltura
+  specs:
+    kaltura-client (1.0)
+      rest-client
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -326,8 +332,6 @@ GEM
       railties (>= 3.0, < 5.0)
       thor (>= 0.14, < 2.0)
     json (1.8.6)
-    kaltura-client (3.3.0)
-      rest-client
     launchy (2.4.3)
       addressable (~> 2.3)
     less (2.6.0)
@@ -592,7 +596,7 @@ DEPENDENCIES
   inherited_resources
   jist
   jquery-rails
-  kaltura-client
+  kaltura-client (= 1.0)!
   launchy
   less-rails
   mandrill-api
