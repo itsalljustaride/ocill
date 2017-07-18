@@ -16,7 +16,7 @@ gem 'devise'
 gem 'cancancan', '~> 1.10'
 
 # WYSIWYG provided by tinymce DON'T UPDATE css will be lost.
-gem 'tinymce-rails', '~> 4.2'
+gem 'tinymce-rails'
 # gem 'tinymce-rails-imageupload', '~> 3.5.6.3'
 
 
@@ -58,8 +58,6 @@ gem 'pry'
 gem 'pry-nav'
 gem 'pry-doc'
 gem 'pry-rails'
-
-gem "foreigner"
 
 # Use Capistrano for deployment
 gem 'capistrano', '~> 3.0', require: false, group: :development

@@ -494,7 +494,7 @@ GEM
       childprocess (~> 0.5)
       rubyzip (~> 1.0)
       websocket (~> 1.0)
-    sexp_processor (4.9.0)
+    sexp_processor (4.10.0)
     shellany (0.0.1)
     shoulda (3.5.0)
       shoulda-context (~> 1.0, >= 1.0.1)
@@ -629,7 +629,7 @@ DEPENDENCIES
   test-unit (~> 3.0)
   therubyracer
   thin
-  tinymce-rails (~> 4.2)
+  tinymce-rails
   toastr-rails
   twitter-bootstrap-rails (= 2.2.8)
   uglifier (>= 1.0.3)
@@ -638,4 +638,4 @@ RUBY VERSION
    ruby 2.3.1p112
 
 BUNDLED WITH
-   1.14.6
+   1.15.2
