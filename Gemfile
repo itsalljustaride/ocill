@@ -1,5 +1,5 @@
 source 'https://rubygems.org'
-# ruby '2.3.0'
+ruby '2.3.1'
 
 gem 'rails', '3.2.22.5'
 
@@ -68,7 +68,7 @@ gem 'capistrano-rvm'
 gem 'test-unit', '~> 3.0'
 
 # For Kaltura uploads
-gem 'kaltura-client'
+gem 'kaltura-client', '1.0', :path => 'vendor/gems/kaltura'
 gem 'rest-client'
 gem 'shoulda'
 

@@ -1,4 +1,4 @@
-require 'Kaltura'
+require 'kaltura'
 require_relative 'logging'
 
 include Kaltura
