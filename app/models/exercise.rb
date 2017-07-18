@@ -21,7 +21,7 @@ class Exercise < ActiveRecord::Base
   belongs_to :drill
   alias :parent :drill
 
-  has_many :exercise_items, :dependent => :destroy, :autosave => true, :order => "position ASC"
+  has_many :exercise_items, -> { order("position ASC") }, :dependent => :destroy, :autosave => true
   alias :children :exercise_items
 
   default_scope { order('position ASC') }
