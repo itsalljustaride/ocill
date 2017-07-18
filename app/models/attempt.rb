@@ -66,7 +66,7 @@ class Attempt < ActiveRecord::Base
     type = Drill.find(drill_id).type
 
     case type
-    when DRAG_DRILL
+    when Drill::DRAG_DRILL
       acceptable_answers = {}
 
       # Get arranged answers
