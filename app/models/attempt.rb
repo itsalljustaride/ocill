@@ -69,16 +69,15 @@ class Attempt < ActiveRecord::Base
     when Drill::DRAG_DRILL
       acceptable_answers = {}
 
-      # Get arranged answers
-      responses.first.exercise_item.exercise.exercise_items.each do |ei|
-        index = ei.acceptable_answers.first
-        acceptable_answers[index] = ei.id
+      exercises = responses.map{|r| r.exercise_item.exercise }.uniq
+      exercises.each_with_index do |exercise, i|
+        answers = exercise.exercise_items.map {|ei| [ei.id, ei.acceptable_answers.first] }.to_h
+        acceptable_answers.merge!(answers)
       end
 
-      # Create gradesheet by comparing ordered records
-      responses.each_with_index.map do |response, index|
-        answer = acceptable_answers[index]
-        data << [response.exercise_item_id, answer.to_s, response.value]
+      responses.map do |response|
+        answer = acceptable_answers[response['exercise_item_id'].to_i]
+        data << [response.value, answer.to_s, response.exercise_item_id]
       end
     else
       responses.each_with_index.map do |response, index|
