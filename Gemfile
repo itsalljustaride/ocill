@@ -44,6 +44,7 @@ gem 'rails_12factor'
 
 # for LTI
 gem 'ims-lti'
+gem 'oauth'
 
 # for caching
 gem 'canvas-api'

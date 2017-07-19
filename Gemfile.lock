@@ -407,6 +407,7 @@ GEM
     notiffany (0.1.1)
       nenv (~> 0.1)
       shellany (~> 0.0)
+    oauth (0.5.3)
     orm_adapter (0.5.0)
     panda (1.6.1)
       faraday (>= 0.7.0)
@@ -644,6 +645,7 @@ DEPENDENCIES
   memcachier
   meta_request
   newrelic_rpm
+  oauth
   panda (~> 1.6.0)
   pg (= 0.20)
   protected_attributes
