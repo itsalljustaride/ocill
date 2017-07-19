@@ -40,11 +40,12 @@ class AttemptsController < InheritedResources::Base
           # If there is no active tool, get it out of the session
           @tool = @tool || Rails.cache.fetch(session[:launch_tool_cache_key])
           score = @attempt.decimal_score
+          puts "---#{score}"
           if @tool && @tool.outcome_service?
-            # result = @tool.post_replace_result!(score)
-            # puts "---#{result.success?}"
-            # puts "-------#{result.inspect}"
-            if @tool.post_replace_result!(score).success?
+            result = @tool.post_replace_result!(score)
+            puts "---#{result.success?}"
+            puts "-------#{result.inspect}"
+            if result.success?
               flash[:notice] = "Your score was submitted as #{score*100}%"
             else
               flash[:alert] = 'Your score was not submitted.  Please notify OCILL support of the problem at <a href="mailto:' + ENV["SUPPORT_EMAIL"] + '">' + ENV["SUPPORT_EMAIL"] + '</a>. (type 1)'
