@@ -107,7 +107,7 @@ class Launch
     role = lti_roles_to_ocill_user_role(roles)
     email = "user#{rand(10000..999999999999).to_s}@example.com"
     password = "pass#{rand(10000..999999999999).to_s}"
-    u = User.find_or_create_by_lti_user_id(lti_user_id: user_id, role: role, email: email, password: password)
+    u = User.create_with(role: role, email: email, password: password).find_or_create_by(lti_user_id: user_id)
   end
 
   def find_or_create_child_section(context_id, custom_canvas_course_id)
