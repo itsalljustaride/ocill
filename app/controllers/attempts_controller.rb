@@ -35,7 +35,7 @@ class AttemptsController < InheritedResources::Base
         else 
           flash[:alert] =  'This drill does not report a grade Please notify OCILL support of the problem at <a href="mailto:' + ENV["SUPPORT_EMAIL"] + '">' + ENV["SUPPORT_EMAIL"] + '</a>. (type 1)'
         end
-      if @attempt.save
+      if @attempt.save!
         if current_user.is_lti?
           # If there is no active tool, get it out of the session
           @tool = @tool || Rails.cache.fetch(session[:launch_tool_cache_key])
