@@ -110,6 +110,8 @@ class Launch
     u = User.find_or_create_by(lti_user_id: user_id, role: role, email: email)
     u.password = password
     u.save!
+    
+    return u
   end
 
   def find_or_create_child_section(context_id, custom_canvas_course_id)
