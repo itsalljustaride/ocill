@@ -41,11 +41,11 @@ class AttemptsController < InheritedResources::Base
           @tool = @tool || Rails.cache.fetch(session[:launch_tool_cache_key])
           score = @attempt.decimal_score
           if @tool && @tool.outcome_service?
-            # result = @tool.post_replace_result!(score)
+            result = @tool.post_replace_result!(score)
             puts "---Score for Attempt(#{@attempt.id}) #{score}"
             puts "---LTI Result Success? #{result.success?}"
             puts "---LTI Result #{result.inspect}"
-            if @tool.post_replace_result!(score).success?
+            if result.success?
               flash[:notice] = "Your score was submitted as #{score*100}%"
             else
               flash[:alert] = 'Your score was not submitted.  Please notify OCILL support of the problem at <a href="mailto:' + ENV["SUPPORT_EMAIL"] + '">' + ENV["SUPPORT_EMAIL"] + '</a>. (type 1)'
