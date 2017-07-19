@@ -1,7 +1,7 @@
 # config valid only for current version of Capistrano
 lock "3.7.2"
 
-set :rvm_ruby_version, '2.3.1'
+set :rvm_ruby_version, '2.4.1'
 
 set :application, "ocill"
 set :repo_url, 'git@bitbucket.org:johnathb/ocill.git'
@@ -34,7 +34,7 @@ set :linked_dirs, fetch(:linked_dirs, []).push('bin', 'log', 'tmp/pids', 'tmp/ca
 # Default value for keep_releases is 5
 set :keep_releases, 3
 
-set :branch, "umdeploy"
+set :branch, "rails_4_upgrade"
 set :use_sudo, true
 
 set :rails_env, "production"
