@@ -43,7 +43,7 @@ gem 'newrelic_rpm'
 gem 'rails_12factor'
 
 # for LTI
-gem 'ims-lti'
+gem 'ims-lti', '~> 1.2'
 gem 'oauth'
 
 # for caching
