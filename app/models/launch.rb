@@ -149,7 +149,7 @@ class Launch
   
   def find_activity
     return nil unless section
-    Activity.find_or_create_by_lti_resource_link_id(lti_resource_link_id: params[:resource_link_id], section_id: section.id)
+    Activity.create_with(section_id: section.id).find_or_create_by(lti_resource_link_id: params[:resource_link_id])
   end
 
   def canvas_course_id
