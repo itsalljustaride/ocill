@@ -40,7 +40,7 @@ class AttemptsController < InheritedResources::Base
           # If there is no active tool, get it out of the session
           @tool = @tool || Rails.cache.fetch(session[:launch_tool_cache_key])
           score = Float::NAN
-          until score != Float::NAN
+          while score.nan?
             score = @attempt.decimal_score
           end
           if @tool && @tool.outcome_service?
