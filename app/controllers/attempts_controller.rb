@@ -39,10 +39,7 @@ class AttemptsController < InheritedResources::Base
         if current_user.is_lti?
           # If there is no active tool, get it out of the session
           @tool = @tool || Rails.cache.fetch(session[:launch_tool_cache_key])
-          score = Float::NAN
-          while score.nan?
-            score = @attempt.decimal_score
-          end
+          score = @attempt.decimal_score
           if @tool && @tool.outcome_service?
             result = @tool.post_replace_result!(score)
             puts "---Score for Attempt(#{@attempt.id}) #{score}"
