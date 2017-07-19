@@ -62,31 +62,17 @@ class Attempt < ActiveRecord::Base
   end
 
   def grade_sheet
-    data = []
     type = Drill.find(drill_id).type
 
     case type
     when Drill::DRAG_DRILL
-      acceptable_answers = {}
-
-      exercises = responses.map{|r| r.exercise_item.exercise }.uniq
-      exercises.each_with_index do |exercise, i|
-        answers = exercise.exercise_items.map {|ei| [ei.id, ei.acceptable_answers.first] }.to_h
-        acceptable_answers.merge!(answers)
-      end
-
-      responses.map do |response|
-        answer = acceptable_answers[response['exercise_item_id'].to_i]
-        data << [response.value, answer.to_s, response.exercise_item_id]
-      end
+      dragdrill_gradesheet
     else
       responses.each_with_index.map do |response, index|
         answers = response.exercise_item ? response.exercise_item.answers : []
-        data << [response.value, answers, response.exercise_item_id]
+        [response.value, answers, response.exercise_item_id]
       end
     end
-
-    data
   end
 
   def correct_ones
@@ -95,6 +81,34 @@ class Attempt < ActiveRecord::Base
     end
   end
 
+  # Used by anything using gradesheet
+  def dragdrill_gradesheet
+    results = []
+
+    exercises ||= responses.map{|r| r.exercise_item.exercise }.uniq
+    user_answers ||= responses.map {|r| [r["exercise_item_id"], r["value"]] }.to_h
+
+    exercises.each do |exercise|
+      res = ['1','1', exercise.id]
+      correct_answers ||= exercise.exercise_items.map {|ei| [ei.id.to_s, ei.acceptable_answers] }.to_h
+
+      correct_answers.each do |ans|
+        accepted_answer_arr = ans.last
+        user_answer = user_answers[ans.first].to_i
+
+        unless accepted_answer_arr.include?(user_answer)
+          res[0] = '0'
+          break
+        end
+      end
+
+      results << res
+    end
+
+    results
+  end
+
+  # Used by the view
   def self.grade_dragdrill(responses)
     results = {}
     mistakes = []
