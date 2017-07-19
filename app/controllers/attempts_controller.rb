@@ -42,7 +42,7 @@ class AttemptsController < InheritedResources::Base
           score = @attempt.decimal_score
           if @tool && @tool.outcome_service?
             result = @tool.post_replace_result!(score)
-            puts result
+            puts "-------#{result.inspect}"
             if result.success?
               flash[:notice] = "Your score was submitted as #{score*100}%"
             else
