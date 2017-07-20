@@ -198,7 +198,7 @@ private
 
     ids_to_update = incoming_positions.map{|k,v| k }
     values_to_update = incoming_positions.map{|k,v| { position: v }}
-    Exercise.update(ids_to_update, values_to_update) unless current_positions == incoming_positions
+    Exercise.update(ids_to_update, values_to_update) # unless current_positions == incoming_positions
   end
 
 end
