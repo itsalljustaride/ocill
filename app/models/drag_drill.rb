@@ -32,7 +32,7 @@ class DragDrill < Drill
   end
 
   def response_order current_user
-    if current_user.attempts.exists?(drill: self.id)
+    if current_user && current_user.attempts.exists?(drill: self.id)
       current_user.attempts.where(drill: self.id).last.responses.map{|r| r.exercise_item_id.to_i} unless current_user.nil?
     end
   end
