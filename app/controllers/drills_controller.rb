@@ -62,6 +62,7 @@ class DrillsController < InheritedResources::Base
 
     if @drill.update_attributes(params[:drill])
       update_drag_exercise_positions(has_exercises)
+      update_drag_exercise_item_positions(has_exercises)
       flash[:notice] = "Successfully updated the drill."
     end
     respond_with(@drill) do |format|
@@ -199,6 +200,22 @@ private
     ids_to_update = incoming_positions.map{|k,v| k }
     values_to_update = incoming_positions.map{|k,v| { position: v }}
     Exercise.update(ids_to_update, values_to_update) # unless current_positions == incoming_positions
+  end
+
+  def update_drag_exercise_item_positions(has_exercises)
+    return unless @drill.type == Drill::DRAG_DRILL
+    return if params['drill']['exercises_attributes'].nil?
+
+    @drill.exercises.each_with_index do |exercise, i|
+      break if params['drill']['exercises_attributes']["#{i}"].nil?
+      ex_items = params['drill']['exercises_attributes']["#{i}"]['exercise_items_attributes']
+
+      incoming_positions = ex_items.map{|ei| [ ei[1]['id'], ei[0] ] }.to_h
+      ids_to_update = incoming_positions.map{|k,v| k }
+      values_to_update = incoming_positions.map{|k,v| { position: v }}
+      puts ids_to_update
+      ExerciseItem.update(ids_to_update, values_to_update)
+    end
   end
 
 end
