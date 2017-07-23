@@ -57,12 +57,10 @@ class DrillsController < InheritedResources::Base
 
   def update
     @drill = Drill.find(params[:id])
-    has_exercises = @drill.exercises.count > 0 ? true : false
     add_answers_to_params unless current_user.is_learner?
+    update_exercise_params
 
     if @drill.update_attributes(params[:drill])
-      update_drag_exercise_positions(has_exercises)
-      update_drag_exercise_item_positions(has_exercises)
       flash[:notice] = "Successfully updated the drill."
     end
     respond_with(@drill) do |format|
@@ -186,35 +184,30 @@ private
     end
   end
 
-  def update_drag_exercise_positions(has_exercises)
+  def update_exercise_params
     return unless @drill.type == Drill::DRAG_DRILL
     return if params['drill']['exercises_attributes'].nil?
 
-    current_positions = @drill.exercises.map{|e| [e.id.to_s, e.position.to_s]}.to_h
-    if has_exercises
-      incoming_positions = params['drill']['exercises_attributes'].map{|ea| [ea[1]['id'], ea[0] ] }.to_h
-    else
-      incoming_positions = current_positions.each_with_index.map{|k, i| [k.first, i] }.to_h
+    params['drill']['exercises_attributes'].each_with_index do |exercise, index|
+      set_position_params_for exercise, index
+      update_exercise_items_for exercise
     end
-
-    ids_to_update = incoming_positions.map{|k,v| k }
-    values_to_update = incoming_positions.map{|k,v| { position: v }}
-    Exercise.update(ids_to_update, values_to_update) # unless current_positions == incoming_positions
   end
 
-  def update_drag_exercise_item_positions(has_exercises)
-    return unless @drill.type == Drill::DRAG_DRILL
-    return if params['drill']['exercises_attributes'].nil?
+  def update_exercise_items_for exercise
+    return if exercise.last['exercise_items_attributes'].nil?
 
-    @drill.exercises.each_with_index do |exercise, i|
-      break if params['drill']['exercises_attributes']["#{i}"].nil?
-      ex_items = params['drill']['exercises_attributes']["#{i}"]['exercise_items_attributes']
+    exercise.last['exercise_items_attributes'].each_with_index do |exercise_item, index|
+      set_position_params_for exercise_item, index
+    end
+  end
 
-      incoming_positions = ex_items.map{|ei| [ ei[1]['id'], ei[0] ] }.to_h
-      ids_to_update = incoming_positions.map{|k,v| k }
-      values_to_update = incoming_positions.map{|k,v| { position: v }}
-      puts ids_to_update
-      ExerciseItem.update(ids_to_update, values_to_update)
+  def set_position_params_for attrs, index
+    model = attrs.last
+    if model.has_key?('position')
+      model['position'] = "#{index}"
+    else
+      model.merge!({'position' => "#{index}"})
     end
   end
 
