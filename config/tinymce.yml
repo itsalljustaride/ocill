@@ -24,7 +24,41 @@ style_formats:
 # content_css: "https://s3.amazonaws.com/ocill-bucket/public/content.css"
 plugins:
   - media
+  - image
+  - link
   - paste
   - textcolor
+  - table
+toolbar:
+  - "bold,
+    italic,
+    strikethrough,
+    underline,
+    forecolor,
+    backcolor, 
+    |,
+    bullist,
+    numlist,
+    |,
+    justifyleft,
+    justifycenter,
+    justifyright,
+    justifyfull,
+    |,
+    formatselect,
+    styleselect,
+    |,
+    outdent,
+    indent"
+  - "pastetext,
+    pasteword,
+    |,
+    undo,
+    redo,
+    |,
+    link,
+    unlink,
+    |,
+    image"
 media_strict: false
 mode: textareas
