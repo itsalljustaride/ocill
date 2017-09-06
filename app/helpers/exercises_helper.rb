@@ -125,7 +125,7 @@ module ExercisesHelper
     player_height = 100
     wid = "_#{partner_id}"
     player_dom_id = "#{player_id}_#{media_id}_#{SecureRandom.uuid}"
-    s = "<div id='#{player_dom_id}'></div><script src='https://#{host}/p/#{partner_id}/sp/#{partner_id}00/embedIframeJs/uiconf_id/#{player_id}/partner_id/#{partner_id}?autoembed=true&entry_id=#{media_id}&playerId=#{player_dom_id}&width=#{player_width}&height=#{player_height}'></script><script>embedKalturaVideo('#{player_dom_id}','#{wid}','#{player_id}',null,'#{media_id}',null);</script>"
+    s = "<div class='kaltura-player-container-audio' id='#{player_dom_id}'></div><script src='https://#{host}/p/#{partner_id}/sp/#{partner_id}00/embedIframeJs/uiconf_id/#{player_id}/partner_id/#{partner_id}?autoembed=true&entry_id=#{media_id}&playerId=#{player_dom_id}&width=#{player_width}&height=#{player_height}'></script><script>embedKalturaVideo('#{player_dom_id}','#{wid}','#{player_id}',null,'#{media_id}',null);</script>"
     raw(s)
   end
 
@@ -141,7 +141,7 @@ module ExercisesHelper
     player_height = 330
     wid = "_#{partner_id}"
     player_dom_id = "#{player_id}_#{media_id}_#{SecureRandom.uuid}"
-    s = "<div id='#{player_dom_id}'></div><script src='https://#{host}/p/#{partner_id}/sp/#{partner_id}00/embedIframeJs/uiconf_id/#{player_id}/partner_id/#{partner_id}?autoembed=true&entry_id=#{media_id}&playerId=#{player_dom_id}&width=#{player_width}&height=#{player_height}'></script><script>embedKalturaVideo('#{player_dom_id}','#{wid}','#{player_id}',null,'#{media_id}',null);</script>"
+    s = "<div class='kaltura-player-container-video' id='#{player_dom_id}'></div><script src='https://#{host}/p/#{partner_id}/sp/#{partner_id}00/embedIframeJs/uiconf_id/#{player_id}/partner_id/#{partner_id}?autoembed=true&entry_id=#{media_id}&playerId=#{player_dom_id}&width=#{player_width}&height=#{player_height}'></script><script>embedKalturaVideo('#{player_dom_id}','#{wid}','#{player_id}',null,'#{media_id}',null);</script>"
     raw(s)
   end
 

@@ -18,3 +18,15 @@
  body {
   padding: 0px 3px;
  }
+ 
+ .kaltura-player-container-video {
+     display: inline-block;
+     width:400px;
+     height:100px;
+ }
+ 
+ .kaltura-player-container-audio {
+     display: inline-block;
+     width:400px;
+     height:330px;
+ }
