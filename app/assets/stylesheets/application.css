@@ -22,11 +22,11 @@
  .kaltura-player-container-video {
      display: inline-block;
      width:400px;
-     height:100px;
+     height:330px;
  }
  
  .kaltura-player-container-audio {
      display: inline-block;
      width:400px;
-     height:330px;
+     height:100px;
  }
