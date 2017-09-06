@@ -124,7 +124,7 @@ module ExercisesHelper
     player_width = 400
     player_height = 100
     player_dom_id = "#{player_id}_#{media_id}_#{SecureRandom.uuid}"
-    s = "<script src='https://#{host}/p/#{partner_id}/sp/#{partner_id}00/embedIframeJs/uiconf_id/#{player_id}/partner_id/#{partner_id}?autoembed=true&entry_id=#{media_id}&playerId=#{player_dom_id}&width=#{player_width}&height=#{player_height}'></script>"
+    s = "<div id='#{player_dom_id}'></div><script src='https://#{host}/p/#{partner_id}/sp/#{partner_id}00/embedIframeJs/uiconf_id/#{player_id}/partner_id/#{partner_id}?autoembed=true&entry_id=#{media_id}&playerId=#{player_dom_id}&width=#{player_width}&height=#{player_height}'></script>"
     raw(s)
   end
 
@@ -139,7 +139,7 @@ module ExercisesHelper
     player_width = 400
     player_height = 330
     player_dom_id = "#{player_id}_#{media_id}_#{SecureRandom.uuid}"
-    s = "<script src='https://#{host}/p/#{partner_id}/sp/#{partner_id}00/embedIframeJs/uiconf_id/#{player_id}/partner_id/#{partner_id}?autoembed=true&entry_id=#{media_id}&playerId=#{player_dom_id}&width=#{player_width}&height=#{player_height}'></script>"
+    s = "<div id='#{player_dom_id}'></div><script src='https://#{host}/p/#{partner_id}/sp/#{partner_id}00/embedIframeJs/uiconf_id/#{player_id}/partner_id/#{partner_id}?autoembed=true&entry_id=#{media_id}&playerId=#{player_dom_id}&width=#{player_width}&height=#{player_height}'></script>"
     raw(s)
   end
 
