@@ -53,7 +53,10 @@ toolbar:
     styleselect,
     |,
     outdent,
-    indent"
+    indent,
+    |,
+    ltr,
+    rtl"
   - "pastetext,
     pasteword,
     |,
