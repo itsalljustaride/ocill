@@ -18,6 +18,9 @@ style_formats:
   - title: R-to-L
     block: div
     classes: rtl
+  - title: L-to-R
+    block: div
+    classes: ltr
   - title: Video
     block: div
     classes: video-player
@@ -29,6 +32,7 @@ plugins:
   - paste
   - textcolor
   - table
+  - directionality
 toolbar:
   - "bold,
     italic,
