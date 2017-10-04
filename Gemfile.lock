@@ -641,6 +641,7 @@ DEPENDENCIES
   rails (= 4.2.9)
   rails_12factor
   rails_best_practices
+  rake
   rb-fsevent (~> 0.9.1)
   rest-client
   rmagick
@@ -661,4 +662,4 @@ RUBY VERSION
    ruby 2.4.1p111
 
 BUNDLED WITH
-   1.15.2
+   1.16.0.pre.2

@@ -1,3 +1,9 @@
+server "ocill.lrc.lsa.umich.edu", user: 'ocilllrc', roles: [:app, :web, :db], :primary => true
+
+set :deploy_to, '/home/ocilllrc/ocill'
+set :tmp_dir, "/home/ocilllrc/tmp"
+set :ping_url, "https://ocill.lrc.lsa.umich.edu/"
+
 # server-based syntax
 # ======================
 # Defines a single server with a list of roles and multiple properties.
@@ -7,7 +13,7 @@
 # server "example.com", user: "deploy", roles: %w{app web}, other_property: :other_value
 # server "db.example.com", user: "deploy", roles: %w{db}
 
-server 'ocill.lrc.lsa.umich.edu', user: 'ocilllrc', roles: %w{app db web}
+# server 'ocill.lrc.lsa.umich.edu', user: 'ocilllrc', roles: %w{app db web}
 
 
 # role-based syntax

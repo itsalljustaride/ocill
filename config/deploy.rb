@@ -9,9 +9,6 @@ set :repo_url, 'git@bitbucket.org:johnathb/ocill.git'
 # Default branch is :master
 # ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp
 
-# Default deploy_to directory is /var/www/my_app_name
-set :deploy_to, '/home/ocilllrc/ocill'
-
 # Default value for :format is :airbrussh.
 # set :format, :airbrussh
 
@@ -41,12 +38,6 @@ set :rails_env, "production"
 
 set :deploy_via, :remote_cache
 set :copy_exclude, [ '.git' ]
-
-set :tmp_dir, "/home/ocilllrc/tmp"
-
-server "ocill.lrc.lsa.umich.edu", user: 'ocilllrc', roles: [:app, :web, :db], :primary => true
-
-set :ping_url, "https://ocill.lrc.lsa.umich.edu/"
 
 set :passenger_restart_with_touch, true
 

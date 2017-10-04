@@ -1,3 +1,9 @@
+server 'lrc-tesuto.lrc.lsa.umich.edu', user: 'lrc_admin', roles: [:app, :web, :db], :primary => true
+
+set :deploy_to, '/Library/WebServer/Documents/ocill'
+set :tmp_dir, "/tmp"
+set :ping_url, "https://lrc-tesuto.lrc.lsa.umich.edu/ocill/"
+
 # server-based syntax
 # ======================
 # Defines a single server with a list of roles and multiple properties.
@@ -7,7 +13,7 @@
 # server "example.com", user: "deploy", roles: %w{app web}, other_property: :other_value
 # server "db.example.com", user: "deploy", roles: %w{db}
 
-
+# server 'lrc-tesuto.lrc.lsa.umich.edu', user: 'lrc_admin', roles: %w{app db web}
 
 # role-based syntax
 # ==================
@@ -21,6 +27,9 @@
 # role :web, %w{user1@primary.com user2@additional.com}, other_property: :other_value
 # role :db,  %w{deploy@example.com}
 
+role :app, %w{lrc_admin@lrc-tesuto.lrc.lsa.umich.edu}
+role :web, %w{lrc_admin@lrc-tesuto.lrc.lsa.umich.edu}
+role :db,  %w{lrc_admin@lrc-tesuto.lrc.lsa.umich.edu}
 
 
 # Configuration
@@ -31,6 +40,7 @@
 # http://capistranorb.com/documentation/getting-started/configuration/
 # Feel free to add new variables to customise your setup.
 
+set :default_shell, :bash
 
 
 # Custom SSH Options
