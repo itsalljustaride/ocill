@@ -2,7 +2,6 @@ source 'https://rubygems.org'
 ruby '2.4.1'
 
 gem 'rails', '4.2.9'
-gem 'rake'
 
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
@@ -68,7 +67,7 @@ gem 'capistrano-rvm'
 gem 'test-unit', '~> 3.0'
 
 # For Kaltura uploads
-gem 'kaltura-client', '1.0'#, :path => 'vendor/gems/kaltura'
+gem 'kaltura-client', '1.0', :path => 'vendor/gems/kaltura'
 gem 'rest-client'
 gem 'shoulda'
 
