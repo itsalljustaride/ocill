@@ -1,6 +1,6 @@
 server 'lrc-tesuto.lrc.lsa.umich.edu', user: 'lrc_admin', roles: [:app, :web, :db], :primary => true
 
-set :deploy_to, '/Library/WebServer/Documents/ocill'
+set :deploy_to, '/Library/Server/Web/Data/WebApps/ocill'
 set :tmp_dir, "/tmp"
 set :ping_url, "https://lrc-tesuto.lrc.lsa.umich.edu/ocill/"
 
