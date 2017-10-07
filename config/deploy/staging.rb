@@ -4,6 +4,8 @@ set :deploy_to, '/Library/Server/Web/Data/WebApps/ocill'
 set :tmp_dir, "/tmp"
 set :ping_url, "https://lrc-tesuto.lrc.lsa.umich.edu/ocill/"
 
+default_environment['RAILS_RELATIVE_URL_ROOT'] = '/ocill'
+
 # server-based syntax
 # ======================
 # Defines a single server with a list of roles and multiple properties.
