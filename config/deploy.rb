@@ -31,7 +31,7 @@ set :linked_dirs, fetch(:linked_dirs, []).push('bin', 'log', 'tmp/pids', 'tmp/ca
 # Default value for keep_releases is 5
 set :keep_releases, 3
 
-set :branch, "rails_4_upgrade"
+set :branch, "old_lti_gem"
 set :use_sudo, true
 
 set :rails_env, "production"
